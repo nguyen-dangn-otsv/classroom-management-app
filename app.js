@@ -1,3 +1,8 @@
+// Import from ./modules
+import { showData } from "./modules/readData.js";
+import { updateData } from "./modules/updateData.js";
+
+// Fake data for classrooms
 var classrooms = [
   {
     idClass: 1,
@@ -12,6 +17,8 @@ var classrooms = [
     nameClass: "18TCLC_DT3",
   },
 ];
+
+// Fake data for students
 var students = [
   {
     id: 1,
@@ -32,13 +39,27 @@ var students = [
     address: "k7/14 Pasteur",
   },
 ];
-import { showData } from "./modules/readData.js";
-import { updateData } from "./modules/updateData.js";
-var table = document.querySelector("#table");
-document.querySelector("body").onload = showData(classrooms);
-document.querySelector("#btn-add").addEventListener("click", (e) => {
-  updateData(classrooms);
 
-  e.preventDefault();
+// Show list classrooms
+document.querySelector("body").onload = showData(classrooms);
+
+// Popup form for edit classrooms
+var modalEdit = document.querySelector("#edit-modal");
+var btnEdits = document.querySelectorAll(".edit-btn");
+btnEdits.forEach(function (btnEdit) {
+  btnEdit.onclick = function () {
+    modalEdit.style.display = "block";
+    console.log(this);
+  };
 });
-document.querySelector;
+
+var checkboxs = document.querySelectorAll(".form-check-input");
+btnAll.onclick = function () {
+  btnAll.textContent == "Select All"
+    ? (btnAll.textContent = "Cancel All")
+    : (btnAll.textContent = "Select All");
+  checkboxs.forEach(function (checkbox) {
+    if (btnAll.textContent == "Cancel All") checkbox.checked = true;
+    else checkbox.checked = false;
+  });
+};
