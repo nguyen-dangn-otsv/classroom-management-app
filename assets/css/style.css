@@ -40,32 +40,54 @@ q:before, q:after {
 }
 table {
 	border-collapse: collapse;
-	border-spacing: 0;
+	border-spacing: 2;
+    
 }
 
-/* design */
+/* ------------design--------------     */
+.container {
+    border: solid 1px rgb(34, 6, 6);
+    padding-bottom: 3% ;
+}
+
 table tbody {
     display: block;
-    max-height: 100px;
+    position: relative;
+    justify-items: center;
+    text-align: center;
     overflow-y: scroll ;
+    max-height: 580px;   /* edit */
   }
   
 table thead, table tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
+    text-align: center;
+    font: x-large oblique;
+    justify-content: center;
 }
-th{
-    border: 1px solid rgb(22, 7, 7)
+table tbody tr th{
+    text-align: center;
+    vertical-align: middle;
+    align-items: center;
+    
 }
+
 .action-container {
     display: flex;
+    border: 1px solid #aaa;
+    padding-left: 30px;
+    
+    
 }
 .add-btn{
     flex: 1;
     border-radius:10px;
-    background-color: rgb(214, 226, 222);
+    background-color: rgb(231, 231, 231);
     text-align: center;
+    padding: 10px;
+    font-size: 25px
 }
 .add-btn:hover{
     background-color: rgb(126, 129, 128);
@@ -73,8 +95,10 @@ th{
 }
 .delete-btn{
     flex: 1;
-    border-radius:10px;
-    background-color: rgb(233, 76, 76);
+    margin-left: 20%;
+    border: solid 2px rgb(51, 40, 40);
+    border-radius:10px 0 0 10px;
+    background-color: rgb(235, 118, 118);
     text-align: center;
 }
 .delete-btn:hover{
@@ -82,12 +106,119 @@ th{
     color: white;
 }
 .edit-btn{
-    flex: 1;
-    border-radius:10px;
-    background-color: rgb(57, 189, 96);
-    text-align: center;
+    background-color: #888;
+    border: solid 2px rgb(51, 40, 40);
+    width:40%;
+    border-radius:20px
 }
 .edit-btn:hover{
+    background-color: rgb(51, 40, 40);
+    color:white
+}
+.select-all-btn{
+    flex: 1;
+    margin-right: 20%;
+    border: solid 2px rgb(40, 51, 48);
+    border-radius:0 10px 10px 0;
+    background-color: rgb(123, 219, 152);
+    text-align: center;
+}
+.select-all-btn:hover{
     background-color: rgb(35, 71, 46);
     color: white;
+}
+
+/* Modal */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* Modal Content Box */
+.modal-content.container.delete-modal{
+    width: 50%;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding-top: 0;
+    padding-bottom:1%;
+    height: fit-content;
+    border: 1px solid #888;
+    border-radius: 20px;
+    width: 80%;
+
+}
+.modal-header {
+    display: flex;
+}
+
+.modal-title {
+    flex :19;
+    text-align: center;
+    font: 1.7em oblique;
+    color: rgb(75, 9, 9);
+}
+.modal-action{
+    display: flex; 
+    margin-top: 10px; 
+}
+.modal-btn-submit{
+    flex: 1;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: aquamarine;
+    border-radius: 20px;
+    text-align: center;
+    font: 1.7em oblique;
+    padding: 1%;
+}
+.modal-btn-cancel{
+    flex: 1;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: rgb(253, 78, 93);
+    border-radius: 20px;
+    text-align: center;
+    font: 1.7em oblique;
+    padding: 1%;
+}
+.modal-btn-submit:hover{
+    color: white;
+    background-color: rgb(60, 97, 85);
+}
+.modal-btn-cancel:hover{
+    color: white;
+    background-color: rgb(131, 17, 26);
+}
+
+/* The Close Button */
+.close {
+    flex:1;
+    border: 2px solid #aaa;;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    width:7%;
+    height: 100%;
+    text-align: center;
+    vertical-align: middle;
+    padding-bottom: 0.5%;
+    font-size: xx-large;
+    border-radius: 20px;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    background-color:#aaa
 }
