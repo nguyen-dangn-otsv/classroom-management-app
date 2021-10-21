@@ -1,0 +1,93 @@
+/* reset css */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* design */
+table tbody {
+    display: block;
+    max-height: 100px;
+    overflow-y: scroll ;
+  }
+  
+table thead, table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+th{
+    border: 1px solid rgb(22, 7, 7)
+}
+.action-container {
+    display: flex;
+}
+.add-btn{
+    flex: 1;
+    border-radius:10px;
+    background-color: rgb(214, 226, 222);
+    text-align: center;
+}
+.add-btn:hover{
+    background-color: rgb(126, 129, 128);
+    color: white;
+}
+.delete-btn{
+    flex: 1;
+    border-radius:10px;
+    background-color: rgb(233, 76, 76);
+    text-align: center;
+}
+.delete-btn:hover{
+    background-color: rgb(90, 27, 27);
+    color: white;
+}
+.edit-btn{
+    flex: 1;
+    border-radius:10px;
+    background-color: rgb(57, 189, 96);
+    text-align: center;
+}
+.edit-btn:hover{
+    background-color: rgb(35, 71, 46);
+    color: white;
+}
