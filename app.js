@@ -1,4 +1,4 @@
-let classrooms = [
+var classrooms = [
   {
     idClass: 1,
     nameClass: "18TCLC_DT1",
@@ -12,7 +12,7 @@ let classrooms = [
     nameClass: "18TCLC_DT3",
   },
 ];
-let students = [
+var students = [
   {
     id: 1,
     nameStudent: "Dang Nhat Nguyen",
@@ -32,14 +32,13 @@ let students = [
     address: "k7/14 Pasteur",
   },
 ];
+import { showData } from "./modules/readData.js";
+import { updateData } from "./modules/updateData.js";
+var table = document.querySelector("#table");
+document.querySelector("body").onload = showData(classrooms);
+document.querySelector("#btn-add").addEventListener("click", (e) => {
+  updateData(classrooms);
 
-let table = document.querySelector("#table");
-let keys = Object.keys(classrooms[0]);
-
-classrooms.forEach((room) => {
-  let newRow = document.createElement("tr");
-  keys.forEach((key) => {
-    let newCell = document.createElement("td");
-    let value = document.createTextNode(room[key]);
-  });
+  e.preventDefault();
 });
+document.querySelector;
