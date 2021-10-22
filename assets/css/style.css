@@ -74,10 +74,8 @@ table tbody tr th{
 }
 
 .action-container {
-    display: flex;
-    border: 1px solid #aaa;
-    padding-left: 30px;
-    
+    display: flex;  
+    justify-content: center;
     
 }
 .add-btn{
@@ -168,6 +166,13 @@ table tbody tr th{
 .modal-action{
     display: flex; 
     margin-top: 10px; 
+}
+.modal-body-message {
+    text-align: center;
+    font: 30px oblique;
+    color: #d31b1b;
+    padding-bottom: 2%;
+
 }
 .modal-btn-submit{
     flex: 1;

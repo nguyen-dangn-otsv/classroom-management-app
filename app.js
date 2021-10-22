@@ -1,5 +1,5 @@
 // Import from ./modules
-import { showData } from "./modules/readData.js";
+import { showData, handleShowData } from "./modules/readData.js";
 import { updateData } from "./modules/updateData.js";
 import {deleteData, checkDataDelete } from "./modules/deleteData.js";
  
@@ -71,14 +71,27 @@ btnAll.onclick = function () {
 var modalDel = document.querySelector("#delete-modal");
 var btnDel = document.querySelector(".delete-btn");
 btnDel.onclick = function () {
+  // pop up delete modal
   modalDel.style.display = "block";
 
   // load delData into modal
-  let tableDel = modalDel.querySelector("table");
-  tableDel.innerHTML = ""
-  let delRow = checkDataDelete()
-  for (let i = 0; i < delRow.length; i++){
-    tableDel.appendChild(delRow[i])
+  let delMessage = modalDel.querySelector(".modal-body-message");
+  let delTable = modalDel.querySelector("tbody");
+  delTable.innerHTML = ""
+  let delData = checkDataDelete(classrooms)
+  if (!delData.length) {
+    delMessage.textContent = "Nothing to delete !!!!"
+  }
+  else{
+    delMessage.innerText = "Do you sure to delete"
+    var keyObject = Object.keys(delData[0]); 
+    delData.forEach(function (object) {
+      var newRow = document.createElement("tr");
+      handleShowData(object,keyObject, newRow)
+
+      delTable.appendChild(newRow);
+
+  })
   }
   // submit delete
   let submitBtn = modalDel.querySelector('.modal-btn-submit')
