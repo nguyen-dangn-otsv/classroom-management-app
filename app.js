@@ -1,7 +1,8 @@
 // Import from ./modules
 import { showData } from "./modules/readData.js";
 import { updateData } from "./modules/updateData.js";
-
+import {deleteData, checkDataDelete } from "./modules/deleteData.js";
+ 
 // Fake data for classrooms
 var classrooms = [
   {
@@ -53,13 +54,37 @@ btnEdits.forEach(function (btnEdit) {
   };
 });
 
+//handle select all 
+var btnAll = document.querySelector(".select-all-btn");
 var checkboxs = document.querySelectorAll(".form-check-input");
 btnAll.onclick = function () {
   btnAll.textContent == "Select All"
     ? (btnAll.textContent = "Cancel All")
     : (btnAll.textContent = "Select All");
-  checkboxs.forEach(function (checkbox) {
-    if (btnAll.textContent == "Cancel All") checkbox.checked = true;
-    else checkbox.checked = false;
-  });
+    checkboxs.forEach(function (checkbox) {
+      if (btnAll.textContent == "Cancel All") checkbox.checked = true;
+      else checkbox.checked = false;
+    });
+};
+
+//handle delete data
+var modalDel = document.querySelector("#delete-modal");
+var btnDel = document.querySelector(".delete-btn");
+btnDel.onclick = function () {
+  modalDel.style.display = "block";
+
+  // load delData into modal
+  let tableDel = modalDel.querySelector("table");
+  tableDel.innerHTML = ""
+  let delRow = checkDataDelete()
+  for (let i = 0; i < delRow.length; i++){
+    tableDel.appendChild(delRow[i])
+  }
+  // submit delete
+  let submitBtn = modalDel.querySelector('.modal-btn-submit')
+  submitBtn.onclick = function () {
+    deleteData(classrooms)
+    modalDel.style.display = "none"
+  }
+  
 };

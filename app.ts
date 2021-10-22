@@ -31,7 +31,7 @@ let students = [
     age: 19,
     address: "k7/14 Pasteur",
   },
-];
+];z
 
 let table = document.querySelector("#table");
 let keys = Object.keys(classrooms[0]);
