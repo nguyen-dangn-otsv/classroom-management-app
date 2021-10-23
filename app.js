@@ -1,9 +1,10 @@
 // Import from ./modules
 import { showData } from "./modules/readData.js";
 import { updateData } from "./modules/updateData.js";
-
-// Fake data for classrooms
-var classrooms = [
+let btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
+let btnsCloseModal = document.querySelectorAll(".btn--close-modal");
+// Mock data for classrooms
+let classrooms = [
   {
     idClass: 1,
     nameClass: "18TCLC_DT1",
@@ -18,8 +19,8 @@ var classrooms = [
   },
 ];
 
-// Fake data for students
-var students = [
+// Mock data for students
+let students = [
   {
     id: 1,
     nameStudent: "Dang Nhat Nguyen",
@@ -40,26 +41,26 @@ var students = [
   },
 ];
 
-// Show list classrooms
-document.querySelector("body").onload = showData(classrooms);
+// Hidden form modal
 
-// Popup form for edit classrooms
-var modalEdit = document.querySelector("#edit-modal");
-var btnEdits = document.querySelectorAll(".edit-btn");
-btnEdits.forEach(function (btnEdit) {
-  btnEdit.onclick = function () {
-    modalEdit.style.display = "block";
-    console.log(this);
+// Show classrooms
+showData(classrooms);
+
+// Update classrooms
+updateData(classrooms);
+
+// Add classrooms
+
+// Close form
+
+btnsCloseModal.forEach(function (closeBtn) {
+  closeBtn.onclick = function () {
+    closeBtn.closest(".modal").style.display = "none";
   };
 });
 
-var checkboxs = document.querySelectorAll(".form-check-input");
-btnAll.onclick = function () {
-  btnAll.textContent == "Select All"
-    ? (btnAll.textContent = "Cancel All")
-    : (btnAll.textContent = "Select All");
-  checkboxs.forEach(function (checkbox) {
-    if (btnAll.textContent == "Cancel All") checkbox.checked = true;
-    else checkbox.checked = false;
+btnsCancelModal.forEach((btnCancel) => {
+  btnCancel.addEventListener("click", (e) => {
+    btnCancel.closest(".modal").style.display = "none";
   });
-};
+});
