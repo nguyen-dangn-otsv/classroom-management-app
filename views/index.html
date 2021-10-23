@@ -62,6 +62,10 @@
           <div class="modal-title"><b>Delete Confirmation</b></div>
           <div class="close">&times;</div>
         </div>
+        <div class="modal-body ">
+          <div class = "modal-body-message">Do you sure to delete</div>
+          <table class="table table-striped table-hover"><tbody></tbody></table> 
+        </div>
         <div class="modal-action">
           <div class="modal-btn-submit">OK</div>
           <div class="modal-btn-cancel">Cancel</div>
@@ -77,7 +81,9 @@
           <div class="modal-title"><b>Edit Confirmation</b></div>
           <div class="close">&times;</div>
         </div>
-        <div class="modal-body"></div>
+        <div class="modal-body">
+          You sure to delete 
+        </div>
         <div class="modal-action">
           <div class="modal-btn-submit">OK</div>
           <div class="modal-btn-cancel">Cancel</div>
@@ -112,12 +118,12 @@
       });
 
       // Delete-modal handle
-      var modalDel = document.querySelector("#delete-modal");
-      var btnDel = document.querySelector(".delete-btn");
+      // var modalDel = document.querySelector("#delete-modal");
+      // var btnDel = document.querySelector(".delete-btn");
 
-      btnDel.onclick = function () {
-        modalDel.style.display = "block";
-      };
+      // btnDel.onclick = function () {
+      //   modalDel.style.display = "block";
+      // };
 
       // Edit-modal handle
       
@@ -129,18 +135,18 @@
         modalAdd.style.display = "block";
       };
 
-      // Select All handle
-      var btnAll = document.querySelector(".select-all-btn");
-      var checkboxs = document.querySelectorAll(".form-check-input");
-      btnAll.onclick = function () {
-        btnAll.textContent == "Select All"
-          ? (btnAll.textContent = "Cancel All")
-          : (btnAll.textContent = "Select All");
-        checkboxs.forEach(function (checkbox) {
-          if (btnAll.textContent == "Cancel All") checkbox.checked = true;
-          else checkbox.checked = false;
-        });
-      };
+            // Select All handle
+      // var btnAll = document.querySelector(".select-all-btn");
+      // var checkboxs = document.querySelectorAll(".form-check-input");
+      // btnAll.onclick = function () {
+      //   btnAll.textContent == "Select All"
+      //     ? (btnAll.textContent = "Cancel All")
+      //     : (btnAll.textContent = "Select All");
+      //   checkboxs.forEach(function (checkbox) {
+      //     if (btnAll.textContent == "Cancel All") checkbox.checked = true;
+      //     else checkbox.checked = false;
+      //   });
+      // };
     </script>
 
     <footer>
