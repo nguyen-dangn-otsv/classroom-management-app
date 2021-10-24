@@ -79,14 +79,26 @@
       <div class="modal-content container d">
         <div class="modal-header">
           <div class="modal-title"><b>Edit Confirmation</b></div>
-          <div class="close">&times;</div>
+          <div class="btn--close-modal">&times;</div>
         </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Name Class</label>
+            <input
+              type="name"
+              class="form-control"
+              id="class-name"
+              key="nameClass"
+            />
+          </div>
+        </div>
+
         <div class="modal-body">
           You sure to delete 
         </div>
         <div class="modal-action">
-          <div class="modal-btn-submit">OK</div>
-          <div class="modal-btn-cancel">Cancel</div>
+          <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
+          <div class="btn--cancel-modal">Cancel</div>
         </div>
       </div>
     </div>
@@ -97,26 +109,19 @@
       <div class="modal-content container d">
         <div class="modal-header">
           <div class="modal-title"><b>Add</b></div>
-          <div class="close">&times;</div>
+          <div class="btn--close-modal">&times;</div>
         </div>
         <div class="modal-body">
           <!-- body content modal -->
         </div>
         <div class="modal-action">
-          <div class="modal-btn-submit">OK</div>
-          <div class="modal-btn-cancel">Cancel</div>
+          <div class="btn--submit-modal">OK</div>
+          <div class="btn--cancel-modal">Cancel</div>
         </div>
       </div>
     </div>
 
     <script type="text/javascript">
-      var closeBtns = document.querySelectorAll(".close");
-      Array.from(closeBtns).forEach(function (closeBtn) {
-        closeBtn.onclick = function () {
-          closeBtn.closest(".modal").style.display = "none";
-        };
-      });
-
       // Delete-modal handle
       // var modalDel = document.querySelector("#delete-modal");
       // var btnDel = document.querySelector(".delete-btn");
@@ -126,7 +131,6 @@
       // };
 
       // Edit-modal handle
-      
 
       // Add-modal handler
       var modalAdd = document.querySelector("#add-modal");
