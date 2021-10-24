@@ -13,6 +13,7 @@ export function deleteData(listObject){
                 delRow.remove()
             }     
         })
+        return listObject
     }
 }
 export function checkDataDelete(listObject){
@@ -29,7 +30,7 @@ export function checkDataDelete(listObject){
                 delData.push(delClass)
 
             }     
-        },[])
+        })
         return delData;
     }
 }

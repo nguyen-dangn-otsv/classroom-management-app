@@ -41,6 +41,7 @@ var students = [
   },
 ];
 
+
 // Show list classrooms
 document.querySelector("body").onload = showData(classrooms);
 
@@ -96,7 +97,7 @@ btnDel.onclick = function () {
   // submit delete
   let submitBtn = modalDel.querySelector('.modal-btn-submit')
   submitBtn.onclick = function () {
-    deleteData(classrooms)
+    let newClassroom = deleteData(classrooms)
     modalDel.style.display = "none"
   }
   
