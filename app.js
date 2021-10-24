@@ -1,10 +1,12 @@
 // Import from ./modules
-import { showData } from "./modules/readData.js";
+import { showData, handleShowData } from "./modules/readData.js";
 import { updateData } from "./modules/updateData.js";
+
 let btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
 let btnsCloseModal = document.querySelectorAll(".btn--close-modal");
 // Mock data for classrooms
 let classrooms = [
+
   {
     idClass: 1,
     nameClass: "18TCLC_DT1",
@@ -59,8 +61,10 @@ btnsCloseModal.forEach(function (closeBtn) {
   };
 });
 
+
 btnsCancelModal.forEach((btnCancel) => {
   btnCancel.addEventListener("click", (e) => {
     btnCancel.closest(".modal").style.display = "none";
   });
 });
+
