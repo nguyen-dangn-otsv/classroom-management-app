@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ClassRoom</title>
+    <title>Student</title>
 
     <link rel="stylesheet" href="../assets/css/style.css" />
 
@@ -25,8 +25,9 @@
         <table class="table table-striped table-hover">
           <thead>
             <tr>
-              <th scope="col"><b>Index</b></th>
               <th scope="col"><b>Name</b></th>
+              <th scope="col"><b>Age</b></th>
+              <th scope="col"><b>Address</b></th>
               <th class="action-container" scope="col">
                 <div class="delete-btn">
                   Delete
@@ -62,11 +63,9 @@
           <div class="modal-title"><b>Delete Confirmation</b></div>
           <div class="btn--close-modal">&times;</div>
         </div>
-        <div class="modal-body">
-          <div class="modal-body-message">Do you sure to delete</div>
-          <table class="table table-striped table-hover">
-            <tbody></tbody>
-          </table>
+        <div class="modal-body ">
+          <div class = "modal-body-message">Do you sure to delete</div>
+          <table class="table table-striped table-hover"><tbody></tbody></table> 
         </div>
         <div class="modal-action">
           <div class="btn--submit-modal">OK</div>
@@ -95,6 +94,9 @@
           </div>
         </div>
 
+        <div class="modal-body">
+          You sure to delete 
+        </div>
         <div class="modal-action">
           <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
           <div class="btn--cancel-modal">Cancel</div>
@@ -108,25 +110,14 @@
       <div class="modal-content container d">
         <div class="modal-header">
           <div class="modal-title"><b>Add</b></div>
-          <div class="btn--close-modal" id="btn-close-add">&times;</div>
+          <div class="btn--close-modal">&times;</div>
         </div>
-        <div class="modal-body" id="body-add-modal">
+        <div class="modal-body">
           <!-- body content modal -->
-          <div class="form-group">
-            <label for="exampleInputEmail1">ID</label>
-            <input type="number" class="form-control" id="id-add" />
-          </div>
-          <div class="form-group">
-            <label>Name Class</label>
-            <input type="text" class="form-control" id="class-name-add" />
-          </div>
-          <div>
-            <p id="text-warning"></p>
-          </div>
         </div>
         <div class="modal-action">
-          <div class="btn--submit-modal" id="btn-submit-add">OK</div>
-          <div class="btn--cancel-modal" id="btn-cancel-add">Cancel</div>
+          <div class="btn--submit-modal">OK</div>
+          <div class="btn--cancel-modal">Cancel</div>
         </div>
       </div>
     </div>
@@ -149,7 +140,7 @@
         modalAdd.style.display = "block";
       };
 
-      // Select All handle
+            // Select All handle
       // var btnAll = document.querySelector(".select-all-btn");
       // var checkboxs = document.querySelectorAll(".form-check-input");
       // btnAll.onclick = function () {
@@ -164,7 +155,7 @@
     </script>
 
     <footer>
-      <script src="../app.js" type="module"></script>
+      <script src="../app_student.js" type="module"></script>
     </footer>
   </body>
 </html>
