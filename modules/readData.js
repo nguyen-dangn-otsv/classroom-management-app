@@ -1,6 +1,6 @@
 export function showData(listObjects) {
   if (!listObjects.length) return; // check if listObject is empty
-  var keyObject = Object.keys(listObjects[0]); 
+  var keyObject = Object.keys(listObjects[0]);
   var table = document.querySelector("tbody");
   listObjects.forEach(function (object) {
     // Create new row
@@ -8,10 +8,10 @@ export function showData(listObjects) {
     newRow.setAttribute("class-id", object[keyObject[0]]);
 
     // Create new column base object
-    handleShowData(object,keyObject, newRow);
+    handleShowData(object, keyObject, newRow);
 
     // Add column checkbox
-    handleShowCheckbox(newRow)
+    handleShowCheckbox(newRow);
     // Add column button edit
     handleShowBtnEdit(newRow);
 
@@ -20,7 +20,7 @@ export function showData(listObjects) {
 }
 
 // Add data into table
-export function handleShowData(object,keyObject, newRow){
+export function handleShowData(object, keyObject, newRow) {
   keyObject.forEach(function (key) {
     var newCell = document.createElement("th");
     newCell.setAttribute("scope", "col");
@@ -31,7 +31,7 @@ export function handleShowData(object,keyObject, newRow){
   });
 }
 // Add chekcbox into table
-function handleShowCheckbox(newRow){
+function handleShowCheckbox(newRow) {
   var cellCheckbox = document.createElement("th");
   cellCheckbox.setAttribute("scope", "col");
   var checkbox = document.createElement("INPUT");
@@ -43,15 +43,15 @@ function handleShowCheckbox(newRow){
   newRow.appendChild(cellCheckbox);
 }
 // Add edit button into table
-function handleShowBtnEdit(newRow){
+function handleShowBtnEdit(newRow) {
   var cellBtnEdit = document.createElement("th");
-    cellBtnEdit.setAttribute("scope", "col");
-    var btnEdit = document.createElement("button");
-    var newBtnText = document.createTextNode("Edit");
-    btnEdit.appendChild(newBtnText);
-    btnEdit.classList.add("edit-btn");
+  cellBtnEdit.setAttribute("scope", "col");
+  var btnEdit = document.createElement("button");
+  var newBtnText = document.createTextNode("Edit");
+  btnEdit.appendChild(newBtnText);
+  btnEdit.classList.add("edit-btn");
 
-    cellBtnEdit.appendChild(btnEdit);
-    
-    newRow.appendChild(cellBtnEdit);
+  cellBtnEdit.appendChild(btnEdit);
+
+  newRow.appendChild(cellBtnEdit);
 }

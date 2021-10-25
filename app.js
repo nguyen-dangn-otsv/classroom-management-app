@@ -1,14 +1,13 @@
-// Import from ./modules
 import { showData, handleShowData } from "./modules/readData.js";
 import { updateData } from "./modules/updateData.js";
-import {checkDataDelete, deleteData } from "./modules/deleteData.js"
-import { saveData } from "./modules/saveData.js"
+import { checkDataDelete, deleteData } from "./modules/deleteData.js";
+import { saveData } from "./modules/saveData.js";
+import { addData } from "./modules/addData.js";
 
 let btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
 let btnsCloseModal = document.querySelectorAll(".btn--close-modal");
-// Mock data for classrooms
-let classrooms = [
 
+let classrooms = [
   {
     idClass: 1,
     nameClass: "18TCLC_DT1",
@@ -24,34 +23,47 @@ let classrooms = [
 ];
 
 
+let students = [
+  {
+    id: 1,
+    nameStudent: "Dang Nhat Nguyen",
+    age: 20,
+    address: "K7/12 Pasteur",
+  },
+  {
+    id: 2,
+    nameStudent: "Tran Phuoc Thinh",
+    age: 21,
+    address: "k7/13 Pasteur",
+  },
+  {
+    id: 3,
+    nameStudent: "Duong Van Chinh",
+    age: 19,
+    address: "k7/14 Pasteur",
+  },
+];
 
+let classroomsDataLocalStorageData = saveData(classrooms, "classrooms");
+localStorage.setItem("checkAddDuplicateData", "false");
 
-//Save data (local storage)
-let classroomsData = saveData(classrooms, "classrooms") 
+showData(classroomsDataLocalStorageData);
 
-// Show classrooms
-showData(classroomsData);
+updateData(classroomsDataLocalStorageData);
 
-// Update classrooms
-updateData(classroomsData);
+addData(classroomsDataLocalStorageData);
 
-// Add classrooms
-
-// Close form
-
-//handle select all 
 var btnAll = document.querySelector(".select-all-btn");
 var checkboxs = document.querySelectorAll(".form-check-input");
 btnAll.onclick = function () {
   btnAll.textContent === "Select All"
-    ? btnAll.textContent = "Cancel All"
-    : btnAll.textContent = "Select All";
-    console.log(btnAll.textContent);
-    checkboxs.forEach(function (checkbox) {
-      if (btnAll.textContent === "Cancel All") checkbox.checked = true;
-      else checkbox.checked = false;
-      console.log(btnAll.textContent);
-    });
+    ? (btnAll.textContent = "Cancel All")
+    : (btnAll.textContent = "Select All");
+
+  checkboxs.forEach(function (checkbox) {
+    if (btnAll.textContent === "Cancel All") checkbox.checked = true;
+    else checkbox.checked = false;
+  });
 };
 
 // handle button modal close button 
@@ -61,48 +73,41 @@ btnsCloseModal.forEach(function (closeBtn) {
   };
 });
 
-// handle button modal cancel button 
 btnsCancelModal.forEach((btnCancel) => {
   btnCancel.addEventListener("click", (e) => {
     btnCancel.closest(".modal").style.display = "none";
   });
 });
 
-//handle delete data
-var modalDel = document.querySelector("#delete-modal");
-var btnDel = document.querySelector(".delete-btn");
+const modalDel = document.querySelector("#delete-modal");
+const btnDel = document.querySelector(".delete-btn");
 btnDel.onclick = function () {
-  // pop up delete modal
   modalDel.style.display = "block";
 
-  // load delData into modal
-  let delMessage = modalDel.querySelector(".modal-body-message");
-  let delTable = modalDel.querySelector("tbody");
-  delTable.innerHTML = ""
-  let delData = checkDataDelete(classroomsData)
-  console.log(delData);
+  const delMessage = modalDel.querySelector(".modal-body-message");
+  const delTable = modalDel.querySelector("tbody");
+  delTable.innerHTML = "";
+  let delData = checkDataDelete(classroomsData);
+
   if (!delData.length) {
-    delMessage.textContent = "Nothing to delete !!!!"
-  }
-  else{
-    delMessage.innerText = "Do you sure to delete"
-    var keyObject = Object.keys(delData[0]); 
+    delMessage.textContent = "Nothing to delete !!!!";
+  } else {
+    delMessage.innerText = "Do you sure to delete";
+    const keyObject = Object.keys(delData[0]);
     delData.forEach(function (object) {
-      var newRow = document.createElement("tr");
-      handleShowData(object,keyObject, newRow)
+      const newRow = document.createElement("tr");
+      handleShowData(object, keyObject, newRow);
 
       delTable.appendChild(newRow);
+    });
+  }
 
-  })
-  }
-  // submit delete
-  let submitBtn = modalDel.querySelector('.btn--submit-modal')
+  const submitBtn = modalDel.querySelector(".btn--submit-modal");
   submitBtn.onclick = function () {
-    let newClassroom = deleteData(classroomsData)
-    localStorage.setItem('classrooms', JSON.stringify(newClassroom))
-    modalDel.style.display = "none"
-  }
-  
+    let newClassroom = deleteData(classroomsData);
+    localStorage.setItem("classrooms", JSON.stringify(newClassroom));
+    modalDel.style.display = "none";
+  };
 };
 
 //handle show student in a class (redirect student page)
