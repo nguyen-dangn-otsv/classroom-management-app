@@ -22,7 +22,6 @@ let classrooms = [
   },
 ];
 
-
 let students = [
   {
     id: 1,
@@ -87,7 +86,7 @@ btnDel.onclick = function () {
   const delMessage = modalDel.querySelector(".modal-body-message");
   const delTable = modalDel.querySelector("tbody");
   delTable.innerHTML = "";
-  let delData = checkDataDelete(classroomsData);
+  let delData = checkDataDelete(classroomsDataLocalStorageData);
 
   if (!delData.length) {
     delMessage.textContent = "Nothing to delete !!!!";
@@ -104,7 +103,7 @@ btnDel.onclick = function () {
 
   const submitBtn = modalDel.querySelector(".btn--submit-modal");
   submitBtn.onclick = function () {
-    let newClassroom = deleteData(classroomsData);
+    let newClassroom = deleteData(classroomsDataLocalStorageData);
     localStorage.setItem("classrooms", JSON.stringify(newClassroom));
     modalDel.style.display = "none";
   };
@@ -116,8 +115,8 @@ classRows.forEach(function (row) {
   row.onclick =  (e) => {
     if (!e.target.closest('input[type = "checkbox"]') &&  !e.target.closest(".edit-btn")){
       console.log(row.getAttribute("class-id"))
-      const classID = row.getAttribute("class-id")
-      window.location.href= `./student.html?class=${classID}`
+      const idClass = row.getAttribute("class-id")
+      window.location.href= `./student.html?class=${idClass}`
     }
   }
 })
