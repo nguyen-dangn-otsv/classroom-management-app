@@ -23,27 +23,7 @@ let classrooms = [
   },
 ];
 
-// Mock data for students
-let students = [
-  {
-    id: 1,
-    nameStudent: "Dang Nhat Nguyen",
-    age: 20,
-    address: "K7/12 Pasteur",
-  },
-  {
-    id: 2,
-    nameStudent: "Tran Phuoc Thinh",
-    age: 21,
-    address: "k7/13 Pasteur",
-  },
-  {
-    id: 3,
-    nameStudent: "Duong Van Chinh",
-    age: 19,
-    address: "k7/14 Pasteur",
-  },
-];
+
 
 
 //Save data (local storage)
@@ -74,13 +54,14 @@ btnAll.onclick = function () {
     });
 };
 
+// handle button modal close button 
 btnsCloseModal.forEach(function (closeBtn) {
   closeBtn.onclick = function () {
     closeBtn.closest(".modal").style.display = "none";
   };
 });
 
-
+// handle button modal cancel button 
 btnsCancelModal.forEach((btnCancel) => {
   btnCancel.addEventListener("click", (e) => {
     btnCancel.closest(".modal").style.display = "none";
@@ -123,4 +104,16 @@ btnDel.onclick = function () {
   }
   
 };
+
+//handle show student in a class (redirect student page)
+let classRows = document.querySelectorAll("tbody tr")
+classRows.forEach(function (row) {
+  row.onclick =  (e) => {
+    if (!e.target.closest('input[type = "checkbox"]') &&  !e.target.closest(".edit-btn")){
+      console.log(row.getAttribute("class-id"))
+      const classID = row.getAttribute("class-id")
+      window.location.href= `./student.html?class=${classID}`
+    }
+  }
+})
 

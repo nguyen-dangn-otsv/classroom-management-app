@@ -158,7 +158,6 @@ table tbody tr th {
 
   display: flex;
   border: 1px solid #aaa;
-  padding-left: 30px;
 }
 .add-btn {
   flex: 1;
