@@ -1,12 +1,13 @@
 // Import from ./modules
 import { showData, handleShowData } from "./modules/readData.js";
 import { updateData } from "./modules/updateData.js";
+import { addData } from "./modules/addData.js";
 
 let btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
 let btnsCloseModal = document.querySelectorAll(".btn--close-modal");
+
 // Mock data for classrooms
 let classrooms = [
-
   {
     idClass: 1,
     nameClass: "18TCLC_DT1",
@@ -42,8 +43,7 @@ let students = [
     address: "k7/14 Pasteur",
   },
 ];
-
-// Hidden form modal
+localStorage.setItem("checkAddDuplicateData", "false");
 
 // Show classrooms
 showData(classrooms);
@@ -52,19 +52,17 @@ showData(classrooms);
 updateData(classrooms);
 
 // Add classrooms
+addData(classrooms);
 
 // Close form
-
 btnsCloseModal.forEach(function (closeBtn) {
   closeBtn.onclick = function () {
     closeBtn.closest(".modal").style.display = "none";
   };
 });
 
-
 btnsCancelModal.forEach((btnCancel) => {
   btnCancel.addEventListener("click", (e) => {
     btnCancel.closest(".modal").style.display = "none";
   });
 });
-
