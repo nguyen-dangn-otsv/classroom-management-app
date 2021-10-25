@@ -1,14 +1,15 @@
 // Import from ./modules
 import { showData, handleShowData } from "./modules/readData.js";
 import { updateData } from "./modules/updateData.js";
-import {checkDataDelete, deleteData } from "./modules/deleteData.js"
-import { saveData } from "./modules/saveData.js"
+import { checkDataDelete, deleteData } from "./modules/deleteData.js";
+import { saveData } from "./modules/saveData.js";
+import { addData } from "./modules/addData.js";
 
 let btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
 let btnsCloseModal = document.querySelectorAll(".btn--close-modal");
+
 // Mock data for classrooms
 let classrooms = [
-
   {
     idClass: 1,
     nameClass: "18TCLC_DT1",
@@ -45,9 +46,9 @@ let students = [
   },
 ];
 
-
 //Save data (local storage)
-let classroomsData = saveData(classrooms, "classrooms") 
+let classroomsData = saveData(classrooms, "classrooms");
+localStorage.setItem("checkAddDuplicateData", "false");
 
 // Show classrooms
 showData(classroomsData);
@@ -56,22 +57,23 @@ showData(classroomsData);
 updateData(classroomsData);
 
 // Add classrooms
+addData(classrooms);
 
 // Close form
 
-//handle select all 
+//handle select all
 var btnAll = document.querySelector(".select-all-btn");
 var checkboxs = document.querySelectorAll(".form-check-input");
 btnAll.onclick = function () {
   btnAll.textContent === "Select All"
-    ? btnAll.textContent = "Cancel All"
-    : btnAll.textContent = "Select All";
+    ? (btnAll.textContent = "Cancel All")
+    : (btnAll.textContent = "Select All");
+  console.log(btnAll.textContent);
+  checkboxs.forEach(function (checkbox) {
+    if (btnAll.textContent === "Cancel All") checkbox.checked = true;
+    else checkbox.checked = false;
     console.log(btnAll.textContent);
-    checkboxs.forEach(function (checkbox) {
-      if (btnAll.textContent === "Cancel All") checkbox.checked = true;
-      else checkbox.checked = false;
-      console.log(btnAll.textContent);
-    });
+  });
 };
 
 btnsCloseModal.forEach(function (closeBtn) {
@@ -79,7 +81,6 @@ btnsCloseModal.forEach(function (closeBtn) {
     closeBtn.closest(".modal").style.display = "none";
   };
 });
-
 
 btnsCancelModal.forEach((btnCancel) => {
   btnCancel.addEventListener("click", (e) => {
@@ -97,30 +98,26 @@ btnDel.onclick = function () {
   // load delData into modal
   let delMessage = modalDel.querySelector(".modal-body-message");
   let delTable = modalDel.querySelector("tbody");
-  delTable.innerHTML = ""
-  let delData = checkDataDelete(classroomsData)
+  delTable.innerHTML = "";
+  let delData = checkDataDelete(classroomsData);
   console.log(delData);
   if (!delData.length) {
-    delMessage.textContent = "Nothing to delete !!!!"
-  }
-  else{
-    delMessage.innerText = "Do you sure to delete"
-    var keyObject = Object.keys(delData[0]); 
+    delMessage.textContent = "Nothing to delete !!!!";
+  } else {
+    delMessage.innerText = "Do you sure to delete";
+    var keyObject = Object.keys(delData[0]);
     delData.forEach(function (object) {
       var newRow = document.createElement("tr");
-      handleShowData(object,keyObject, newRow)
+      handleShowData(object, keyObject, newRow);
 
       delTable.appendChild(newRow);
-
-  })
+    });
   }
   // submit delete
-  let submitBtn = modalDel.querySelector('.btn--submit-modal')
+  let submitBtn = modalDel.querySelector(".btn--submit-modal");
   submitBtn.onclick = function () {
-    let newClassroom = deleteData(classroomsData)
-    localStorage.setItem('classrooms', JSON.stringify(newClassroom))
-    modalDel.style.display = "none"
-  }
-  
+    let newClassroom = deleteData(classroomsData);
+    localStorage.setItem("classrooms", JSON.stringify(newClassroom));
+    modalDel.style.display = "none";
+  };
 };
-
