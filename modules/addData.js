@@ -1,23 +1,25 @@
 import { showData } from "./readData.js";
 import { updateData } from "./updateData.js";
-let modal = document.querySelector("#add-modal");
-let btnSubmit = document.querySelector("#btn-submit-add");
-let inputTextIdClass = document.querySelector("#id-add");
-let inputTextNameClass = document.querySelector("#class-name-add");
-let textWarning = document.querySelector("#text-warning");
-let btnCancel = document.querySelector("#btn-cancel-add");
-let btnClose = document.querySelector("#btn-close-add");
+const modal = document.querySelector("#add-modal");
+const btnSubmit = document.querySelector("#btn-submit-add");
+const inputTextIdClass = document.querySelector("#id-add");
+const inputTextNameClass = document.querySelector("#class-name-add");
+const textWarning = document.querySelector("#text-warning");
+const btnCancel = document.querySelector("#btn-cancel-add");
+const btnClose = document.querySelector("#btn-close-add");
 
 let listNewObjects = [];
 export function addData(classrooms) {
   // Submit modal data
   btnSubmit.addEventListener("click", () => {
     // Get value from browser.
-    let idClass = inputTextIdClass.value;
-    let nameClass = inputTextNameClass.value;
+    const idClass = inputTextIdClass.value;
+    const nameClass = inputTextNameClass.value;
 
     // Check if ID was duplicated or not.
-    let isMatch = classrooms.find((classroom) => classroom.idClass == idClass);
+    const isMatch = classrooms.find(
+      (classroom) => classroom.idClass == idClass
+    );
     if (isMatch) {
       // If ID was duplicated, show warning.
       if (localStorage.getItem("checkAddDuplicateData") == "false") {
@@ -26,7 +28,7 @@ export function addData(classrooms) {
       }
     } else {
       // Add new data to classrooms.
-      let newClass = {
+      const newClass = {
         idClass,
         nameClass,
       };
