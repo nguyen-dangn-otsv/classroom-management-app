@@ -1,30 +1,30 @@
 export function updateData(classrooms) {
-  let modalEdit = document.querySelector("#edit-modal");
-  let btnEdits = document.querySelectorAll(".edit-btn");
-  let btnSubmitEdit = document.querySelector("#btn-submit-edit");
-  let btnCloseEdit = document.querySelector("#btn-close-edit");
-  let inputTextClassName = document.querySelector("#class-name");
-  // Edit
+  const modalEdit = document.querySelector("#edit-modal");
+  const btnEdits = document.querySelectorAll(".edit-btn");
+  const btnSubmitEdit = document.querySelector("#btn-submit-edit");
+  const inputTextNameClassModal = document.querySelector("#class-name");
+
   btnEdits.forEach(function (btnEdit) {
     btnEdit.addEventListener("click", function () {
-      let cellNameClass = this.closest("tr").childNodes[1];
-
-      // Popup form edit
-      modalEdit.style.display = "block";
-
-      // Fill data to form edit
-      let idClassroom = this.closest("tr").getAttribute("class-id");
-      let indexClassroom = classrooms.findIndex(
+      const row = this.closest("tr");
+      const cellNameClass = row.childNodes[1];
+      const idClassroom = row.getAttribute("class-id");
+      const idxClassroom = classrooms.findIndex(
         (classroom) => classroom.idClass == idClassroom
       );
-      inputTextClassName.value = classrooms[indexClassroom].nameClass;
 
-      // Submit to edit
-      btnSubmitEdit.addEventListener("click", function () {
-        classrooms[indexClassroom].nameClass = inputTextClassName.value;
-        cellNameClass.innerHTML = inputTextClassName.value;
+      inputTextNameClassModal.value = classrooms[idxClassroom].nameClass;
+
+      modalEdit.style.display = "block";
+
+      btnSubmitEdit.onclick = function () {
+        classrooms[idxClassroom].nameClass = inputTextNameClassModal.value;
+        cellNameClass.innerText = inputTextNameClassModal.value;
+
         modalEdit.style.display = "none";
-      });
+
+        localStorage.setItem("classrooms", JSON.stringify(classrooms));
+      };
     });
   });
 }
