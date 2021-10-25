@@ -22,7 +22,6 @@ let classrooms = [
   },
 ];
 
-
 let students = [
   {
     id: 1,
@@ -43,9 +42,11 @@ let students = [
     address: "k7/14 Pasteur",
   },
 ];
+student
 
-let classroomsDataLocalStorageData = saveData(classrooms, "classrooms");
+let classroomsDataLocalStorageData = saveData(, "classrooms");
 localStorage.setItem("checkAddDuplicateData", "false");
+if lo
 
 showData(classroomsDataLocalStorageData);
 
@@ -111,7 +112,7 @@ btnDel.onclick = function () {
 };
 
 //handle show student in a class (redirect student page)
-let classRows = document.querySelectorAll("tbody tr")
+
 classRows.forEach(function (row) {
   row.onclick =  (e) => {
     if (!e.target.closest('input[type = "checkbox"]') &&  !e.target.closest(".edit-btn")){
