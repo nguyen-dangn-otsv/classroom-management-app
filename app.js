@@ -316,7 +316,9 @@ function redirect(idClass) {
   const row = document.querySelector(`tr[class-id="${idClass}"]`);
 
   // if (!row.matches('input[type = "checkbox"]') && !row.matches(".edit-btn")) {
+
     window.location.href = `./student.html?class=${idClass}`;
+
   // }
 }
 
