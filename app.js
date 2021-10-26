@@ -34,18 +34,21 @@ let students = [
     nameStudent: "Dang Nhat Nguyen",
     age: 20,
     address: "K7/12 Pasteur",
+    idClass: 1
   },
   {
     id: 2,
     nameStudent: "Tran Phuoc Thinh",
     age: 21,
     address: "k7/13 Pasteur",
+    idClass: 1
   },
   {
     id: 3,
     nameStudent: "Duong Van Chinh",
     age: 19,
     address: "k7/14 Pasteur",
+    idClass: 2
   },
 ];
 let classroomsDataLocalStorage = saveData(classrooms, "classrooms");
@@ -313,7 +316,9 @@ function redirect(idClass) {
   const row = document.querySelector(`tr[class-id="${idClass}"]`);
 
   // if (!row.matches('input[type = "checkbox"]') && !row.matches(".edit-btn")) {
-  //   window.location.href = `./student.html?class=${idClass}`;
+
+    window.location.href = `./student.html?class=${idClass}`;
+
   // }
 }
 
