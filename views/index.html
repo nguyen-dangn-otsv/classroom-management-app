@@ -18,7 +18,12 @@
   </head>
   <body>
     <!-- header -->
-    <header class="header-section"></header>
+    <header class="header-section">
+      <div class ="input-group">
+        <input type="text" class="form-control">
+        <button type="button" class="btn btn-outline-secondary">Secondary</button>
+      </div>
+    </header>
     <div class="container">
       <!-- table -->
       <div class="table-container">
@@ -27,12 +32,12 @@
             <tr>
               <th scope="col"><b>Index</b></th>
               <th scope="col"><b>Name</b></th>
-              <th class="action-container" scope="col">
+              <th class="action-container input-group" scope="col">
                 <div class="delete-btn" onclick="handleDeleteData()">
                   Delete
                   <i class="fas fa-plus"></i>
                 </div>
-                <div class="select-all-btn">
+                <div class="select-all-btn" onclick="selectAll()">
                   Select All
                   <i class="fas fa-plus"></i>
                 </div>
