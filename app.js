@@ -52,7 +52,6 @@ updateData(classroomsDataLocalStorageData);
 
 addData(classroomsDataLocalStorageData);
 
-// Delete data
 var btnAll = document.querySelector(".select-all-btn");
 var checkboxs = document.querySelectorAll(".form-check-input");
 btnAll.onclick = function () {
@@ -66,6 +65,7 @@ btnAll.onclick = function () {
   });
 };
 
+// handle button modal close button 
 btnsCloseModal.forEach(function (closeBtn) {
   closeBtn.onclick = function () {
     closeBtn.closest(".modal").style.display = "none";
@@ -86,7 +86,7 @@ btnDel.onclick = function () {
   const delMessage = modalDel.querySelector(".modal-body-message");
   const delTable = modalDel.querySelector("tbody");
   delTable.innerHTML = "";
-  let delData = checkDataDelete(classroomsData);
+  let delData = checkDataDelete(classroomsDataLocalStorageData);
 
   if (!delData.length) {
     delMessage.textContent = "Nothing to delete !!!!";
@@ -103,8 +103,21 @@ btnDel.onclick = function () {
 
   const submitBtn = modalDel.querySelector(".btn--submit-modal");
   submitBtn.onclick = function () {
-    let newClassroom = deleteData(classroomsData);
+    let newClassroom = deleteData(classroomsDataLocalStorageData);
     localStorage.setItem("classrooms", JSON.stringify(newClassroom));
     modalDel.style.display = "none";
   };
 };
+
+//handle show student in a class (redirect student page)
+let classRows = document.querySelectorAll("tbody tr")
+classRows.forEach(function (row) {
+  row.onclick =  (e) => {
+    if (!e.target.closest('input[type = "checkbox"]') &&  !e.target.closest(".edit-btn")){
+      console.log(row.getAttribute("class-id"))
+      const idClass = row.getAttribute("class-id")
+      window.location.href= `./student.html?class=${idClass}`
+    }
+  }
+})
+
