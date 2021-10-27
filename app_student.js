@@ -87,19 +87,42 @@ function handleShowBtnEdit(newRow, idClass) {
   newRow.appendChild(cellBtnEdit);
 }
 
-function checkChecked(){
+function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  let check = true
-  for (let i = 0; i < checkBoxs.length; i++){
+  let isChecked = true;
+
+  for (let i = 0; i < checkBoxs.length; i++) {
     if (checkBoxs[i].checked == false) {
-      check = false;
+      isChecked = false;
       break;
     }
   }
-  check ? btnSelectAll.textContent = "Cancel All" : btnSelectAll.textContent = "Select All"
+  btnSelectAll.textContent = check ? "Cancel All" : "Select All";
+}
+function showDetail(id) {
+  const nameStudent = document.querySelector(".modal-title > p");
+  const idStudent = document.querySelector("#id-student-detail-modal");
+  const name = document.querySelector("#name-student-detail-modal");
+  const age = document.querySelector("#age-student-detail-modal");
+  const address = document.querySelector("#address-student-detail-modal");
+  const nameClass = document.querySelector("#name-class-detail-modal");
+
+  const students = JSON.parse(localStorage.getItem("students"));
+  const classrooms = JSON.parse(localStorage.getItem("classrooms"));
+  const student = students.find((student) => student.id == id);
+
+  nameStudent.innerHTML = student.nameStudent;
+  idStudent.value = student.id;
+  name.value = student.nameStudent;
+  age.value = student.age;
+  address.value = student.address;
+  nameClass.value = classrooms.find(
+    (classroom) => (classroom.idClass = student.idClass)
+  ).nameClass;
+  modalShowDetail.style.display = "block";
 }
 
-//Handle select all 
+//Handle select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   btnSelectAll.textContent.trim() === "Select All"
@@ -258,9 +281,7 @@ function handleDeleteData() {
   }
 
   submitBtn.onclick = function () {
-    let newStudents = deleteData(
-      JSON.parse(localStorage.getItem("students"))
-    );
+    let newStudents = deleteData(JSON.parse(localStorage.getItem("students")));
     localStorage.setItem("students", JSON.stringify(newStudents));
     modalDel.style.display = "none";
   };
@@ -305,4 +326,4 @@ showData(studentData);
 
 addData();
 
-checkChecked()
+checkChecked();
