@@ -46,6 +46,8 @@ function showData(listObjects) {
     handleShowCheckbox(newRow);
 
     handleShowBtnEdit(newRow, object[keyObject[0]]);
+
+    handleShowBtnDetail(newRow, object[keyObject[0]]);
     table.appendChild(newRow);
   });
 }
@@ -87,6 +89,15 @@ function handleShowBtnEdit(newRow, idClass) {
   newRow.appendChild(cellBtnEdit);
 }
 
+function handleShowBtnDetail(newRow, id) {
+  const cellBtnDetail = document.createElement("th");
+  const btnDetail = document.createElement("button");
+  btnDetail.innerHTML = `<i class="fa fa-eye"></i>`;
+  btnDetail.setAttribute("onclick", `showDetail(${id})`);
+  cellBtnDetail.setAttribute("scope", "col");
+  cellBtnDetail.appendChild(btnDetail);
+  newRow.appendChild(cellBtnDetail);
+}
 function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   let isChecked = true;
@@ -97,8 +108,10 @@ function checkChecked() {
       break;
     }
   }
-  btnSelectAll.textContent = check ? "Cancel All" : "Select All";
+  btnSelectAll.textContent = isChecked ? "Cancel All" : "Select All";
 }
+const modalShowDetail = document.querySelector("#detail-modal");
+
 function showDetail(id) {
   const nameStudent = document.querySelector(".modal-title > p");
   const idStudent = document.querySelector("#id-student-detail-modal");
@@ -143,11 +156,10 @@ function addData() {
     const address = inputTextAddressStudent.value;
     let listNewStudent = [];
     let students = JSON.parse(localStorage.getItem("students"));
-    let id = students.length;
+    let id = students.length == 0 ? 0 : students[students.length - 1].id;
     ++id;
     const age = Number(inputTextAgeStudent.value);
     if (Number.isNaN(age) || !Number.isInteger(age)) {
-      console.log("abc");
       textWarningAdd.innerHTML = " * * * Please fill Age by a number";
     } else {
       if (
