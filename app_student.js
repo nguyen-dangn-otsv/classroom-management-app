@@ -4,19 +4,27 @@ const btnSelectAll = document.querySelector(".select-all-btn");
 const btnSubmit = document.querySelector("#btn-submit-add");
 const btnCancel = document.querySelector("#btn-cancel-add");
 const btnClose = document.querySelector("#btn-close-add");
-
+const btnCloseEdit = document.querySelector("#btn-close-edit");
+const btnCancelEdit = document.querySelector("#btn-cancel-edit");
+const btnSubmitEdit = document.querySelector("#btn-submit-edit");
 const inputTextNameStudent = document.querySelector("#name-student-add-modal");
 const inputTextAgeStudent = document.querySelector("#age-student-add-modal");
 const inputTextAddressStudent = document.querySelector(
   "#address-student-add-modal"
 );
+const inputTextNameStudentEditModal = document.querySelector("#name-student");
+const inputTextAgeStudentEditModal = document.querySelector("#age-student");
+const inputTextAddressStudentEditModal =
+  document.querySelector("#address-student");
 
-const textWarning = document.querySelector("#text-warning");
+const modalEdit = document.querySelector("#edit-modal");
 const modal = document.querySelector("#add-modal");
 
+const tableBody = document.querySelector("tbody");
+const textWarningUpdate = document.querySelector("#text-warning-update");
+const textWarningAdd = document.querySelector("#text-warning-add");
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-
 let idClass = +urlParams.get("class");
 const studentData = JSON.parse(localStorage.getItem("students")).filter(
   (student) => student.idClass == idClass
@@ -97,32 +105,40 @@ function selectAll() {
 function addData() {
   btnSubmit.addEventListener("click", () => {
     const nameStudent = inputTextNameStudent.value;
-    const age = +inputTextAgeStudent.value;
     const address = inputTextAddressStudent.value;
     let listNewStudent = [];
     let students = JSON.parse(localStorage.getItem("students"));
     let id = students.length;
     ++id;
-
-    if (age !== 0 && address !== "" && nameStudent !== "") {
-      const newStudent = {
-        id,
-        nameStudent,
-        age,
-        address,
-        idClass,
-      };
-
-      listNewStudent.push(newStudent);
-      students.push(newStudent);
-
-      modal.style.display = "none";
-      localStorage.setItem("students", JSON.stringify(students));
-
-      showData(listNewStudent);
-      resetForm();
+    const age = Number(inputTextAgeStudent.value);
+    if (Number.isNaN(age) || !Number.isInteger(age)) {
+      console.log("abc");
+      textWarningAdd.innerHTML = " * * * Please fill Age by a number";
     } else {
-      textWarning.innerHTML = " * * * Please type full information";
+      if (
+        inputTextAgeStudent.value !== "" &&
+        address !== "" &&
+        nameStudent !== ""
+      ) {
+        const newStudent = {
+          id,
+          nameStudent,
+          age,
+          address,
+          idClass,
+        };
+
+        listNewStudent.push(newStudent);
+        students.push(newStudent);
+
+        modal.style.display = "none";
+        localStorage.setItem("students", JSON.stringify(students));
+
+        showData(listNewStudent);
+        resetForm();
+      } else {
+        textWarningAdd.innerHTML = " * * * Please type full information";
+      }
     }
   });
 
@@ -140,10 +156,56 @@ function addData() {
 }
 
 function resetForm() {
-  textWarning.innerHTML = "";
+  textWarningAdd.innerHTML = "";
   inputTextNameStudent.value = "";
   inputTextAgeStudent.value = "";
   inputTextAddressStudent.value = "";
+}
+
+// Update
+
+function updateData(id) {
+  const studentsLocalStorage = JSON.parse(localStorage.getItem("students"));
+  const students = studentsLocalStorage.filter(
+    (student) => student.idClass == idClass
+  );
+  const idxStudentLocalStorage = studentsLocalStorage.findIndex(
+    (student) => student.id == id
+  );
+  const idxStudent = students.findIndex((student) => student.id == id);
+
+  const row = tableBody.childNodes[idxStudent];
+  const cellNameStudent = row.childNodes[1];
+  const cellAgeStudent = row.childNodes[2];
+  const cellAddressStudent = row.childNodes[3];
+
+  inputTextNameStudentEditModal.value = students[idxStudent].nameStudent;
+  inputTextAgeStudentEditModal.value = students[idxStudent].age;
+  inputTextAddressStudentEditModal.value = students[idxStudent].address;
+
+  modalEdit.style.display = "block";
+
+  btnSubmitEdit.onclick = function () {
+    let age = Number(inputTextAgeStudentEditModal.value);
+    if (!Number.isNaN(age) && Number.isInteger(age)) {
+      studentsLocalStorage[idxStudentLocalStorage].nameStudent =
+        inputTextNameStudentEditModal.value;
+      studentsLocalStorage[idxStudentLocalStorage].age =
+        +inputTextAgeStudentEditModal.value;
+      studentsLocalStorage[idxStudentLocalStorage].address =
+        inputTextAddressStudentEditModal.value;
+
+      cellNameStudent.innerText = inputTextNameStudentEditModal.value;
+      cellAgeStudent.innerText = inputTextAgeStudentEditModal.value;
+      cellAddressStudent.innerText = inputTextAddressStudentEditModal.value;
+
+      modalEdit.style.display = "none";
+      textWarningUpdate.innerHTML = "";
+      localStorage.setItem("students", JSON.stringify(studentsLocalStorage));
+    } else {
+      textWarningUpdate.innerHTML = "Please fill Age by a number";
+    }
+  };
 }
 
 // Handle event close modal
@@ -151,12 +213,14 @@ function closeModal() {
   btnsCloseModal.forEach(function (closeBtn) {
     closeBtn.onclick = function () {
       closeBtn.closest(".modal").style.display = "none";
+      textWarningUpdate.innerHTML = "";
     };
   });
 
   btnsCancelModal.forEach((btnCancel) => {
     btnCancel.addEventListener("click", (e) => {
       btnCancel.closest(".modal").style.display = "none";
+      textWarningUpdate.innerHTML = "";
     });
   });
 }
