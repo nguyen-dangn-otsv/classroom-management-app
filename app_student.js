@@ -1,14 +1,26 @@
 const btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
 const btnsCloseModal = document.querySelectorAll(".btn--close-modal");
 const btnSelectAll = document.querySelector(".select-all-btn");
+const btnSubmit = document.querySelector("#btn-submit-add");
+const btnCancel = document.querySelector("#btn-cancel-add");
+const btnClose = document.querySelector("#btn-close-add");
 
+const inputTextNameStudent = document.querySelector("#name-student-add-modal");
+const inputTextAgeStudent = document.querySelector("#age-student-add-modal");
+const inputTextAddressStudent = document.querySelector(
+  "#address-student-add-modal"
+);
 
-const queryString = window.location.search
+const textWarning = document.querySelector("#text-warning");
+const modal = document.querySelector("#add-modal");
+
+const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const idClass = urlParams.get('class')
-const studentData = JSON.parse(localStorage.getItem("students")).filter(function(student){return student.idClass == idClass})
-showData(studentData)
 
+let idClass = +urlParams.get("class");
+const studentData = JSON.parse(localStorage.getItem("students")).filter(
+  (student) => student.idClass == idClass
+);
 
 // Show data
 
@@ -30,7 +42,7 @@ function showData(listObjects) {
 }
 
 function handleShowData(object, keyObject, newRow) {
-  for (let i = 0 ; i < keyObject.length - 1; i++) {
+  for (let i = 0; i < keyObject.length - 1; i++) {
     const newCell = document.createElement("th");
     newCell.setAttribute("scope", "col");
     const value = document.createTextNode(object[keyObject[i]]);
@@ -65,8 +77,7 @@ function handleShowBtnEdit(newRow, idClass) {
   newRow.appendChild(cellBtnEdit);
 }
 
-
-//handle select all 
+//handle select all
 btnSelectAll.addEventListener("click", selectAll);
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
@@ -79,6 +90,60 @@ function selectAll() {
     if (this.textContent === "Cancel All") checkbox.checked = true;
     else checkbox.checked = false;
   });
+}
+
+// Add data
+
+function addData() {
+  btnSubmit.addEventListener("click", () => {
+    const nameStudent = inputTextNameStudent.value;
+    const age = +inputTextAgeStudent.value;
+    const address = inputTextAddressStudent.value;
+    let listNewStudent = [];
+    let students = JSON.parse(localStorage.getItem("students"));
+    let id = students.length;
+    ++id;
+
+    if (age !== 0 && address !== "" && nameStudent !== "") {
+      const newStudent = {
+        id,
+        nameStudent,
+        age,
+        address,
+        idClass,
+      };
+
+      listNewStudent.push(newStudent);
+      students.push(newStudent);
+
+      modal.style.display = "none";
+      localStorage.setItem("students", JSON.stringify(students));
+
+      showData(listNewStudent);
+      resetForm();
+    } else {
+      textWarning.innerHTML = " * * * Please type full information";
+    }
+  });
+
+  btnCancel.addEventListener("click", () => {
+    localStorage.setItem("checkAddDuplicateData", "false");
+    modal.style.display = "none";
+    resetForm();
+  });
+
+  btnClose.addEventListener("click", () => {
+    localStorage.setItem("checkAddDuplicateData", "false");
+    modal.style.display = "none";
+    resetForm();
+  });
+}
+
+function resetForm() {
+  textWarning.innerHTML = "";
+  inputTextNameStudent.value = "";
+  inputTextAgeStudent.value = "";
+  inputTextAddressStudent.value = "";
 }
 
 // Handle event close modal
@@ -95,4 +160,8 @@ function closeModal() {
     });
   });
 }
+closeModal();
 
+showData(studentData);
+
+addData();
