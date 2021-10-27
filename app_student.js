@@ -130,7 +130,7 @@ function showDetail(id) {
   age.value = student.age;
   address.value = student.address;
   nameClass.value = classrooms.find(
-    (classroom) => (classroom.idClass = student.idClass)
+    (classroom) => classroom.idClass == student.idClass
   ).nameClass;
   modalShowDetail.style.display = "block";
 }
