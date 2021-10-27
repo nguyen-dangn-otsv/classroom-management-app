@@ -4,6 +4,7 @@ const textWarning = document.querySelector("#text-warning");
 const btnCancel = document.querySelector("#btn-cancel-add");
 const btnClose = document.querySelector("#btn-close-add");
 const btnDel = document.querySelector(".delete-btn");
+const btnSelectAll = document.querySelector(".select-all-btn");
 const btnSubmit = document.querySelector("#btn-submit-add");
 const btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
 const btnsCloseModal = document.querySelectorAll(".btn--close-modal");
@@ -79,7 +80,7 @@ function showData(listObjects) {
     handleShowCheckbox(newRow);
 
     handleShowBtnEdit(newRow, object[keyObject[0]]);
-    newRow.setAttribute("onclick", `redirect(${object[keyObject[0]]})`);
+    newRow.setAttribute("onclick", `redirect(event,${object[keyObject[0]]})`);
     table.appendChild(newRow);
   });
 }
@@ -100,6 +101,7 @@ function handleShowCheckbox(newRow) {
   cellCheckbox.setAttribute("scope", "col");
   const checkbox = document.createElement("INPUT");
   checkbox.setAttribute("type", "checkbox");
+  checkbox.setAttribute("onclick", "checkChecked()");
   checkbox.classList.add("form-check-input");
 
   cellCheckbox.appendChild(checkbox);
@@ -215,23 +217,37 @@ function resetForm() {
   inputTextIdClass.value = "";
   inputTextNameClass.value = "";
 }
+function resetCheckboxs() {
+  const checkBoxs = document.querySelectorAll(".form-check-input");
+  checkBoxs.forEach((checkBox) => {
+    if (checkBox.checked){checkBox.checked = false}
+  })
+}
+function checkChecked(){
+  const checkBoxs = document.querySelectorAll(".form-check-input");
+  let check = true
+  for (let i = 0; i < checkBoxs.length; i++){
+    if (checkBoxs[i].checked == false) {
+      check = false;
+      break;
+    }
+  }
+  console.log(check)
+  check ? btnSelectAll.textContent = "Cancel All" : btnSelectAll.textContent = "Select All"
+}
 
-// Delete data
-const btnSelectAll = document.querySelector(".select-all-btn");
-btnSelectAll.addEventListener("click", selectAll);
+//Select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-
-  this.textContent === "Select All"
-    ? (this.textContent = "Cancel All")
-    : (this.textContent = "Select All");
-
+  btnSelectAll.textContent.trim() === "Select All"
+    ? (btnSelectAll.textContent = "Cancel All")
+    : (btnSelectAll.textContent = "Select All");
   checkBoxs.forEach((checkbox) => {
-    if (this.textContent === "Cancel All") checkbox.checked = true;
+    if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
     else checkbox.checked = false;
   });
 }
-
+// Delete data
 function checkDataDelete(listObject) {
   let checkBoxs = document.querySelectorAll("input[type = checkbox]");
   if (checkBoxs) {
@@ -257,7 +273,6 @@ function handleDeleteData() {
 
   modalDel.style.display = "block";
   delTable.innerHTML = "";
-  console.log(delData);
   if (!delData.length) {
     delMessage.textContent = "Nothing to delete !!!!";
   } else {
@@ -275,6 +290,8 @@ function handleDeleteData() {
       JSON.parse(localStorage.getItem("classrooms"))
     );
     localStorage.setItem("classrooms", JSON.stringify(newClassroom));
+    const newStudents = deleteAllStudents(delData)
+    localStorage.setItem("students", JSON.stringify(newStudents));
     modalDel.style.display = "none";
   };
 }
@@ -297,6 +314,18 @@ function deleteData(listObject) {
   }
 }
 
+function deleteAllStudents(listDeletedClasses) {
+  const students = JSON.parse(localStorage.getItem('students'))
+  const deletedStudents = listDeletedClasses.reduce(function(delStudents,deletedClass) {
+    const del = students.filter(function(student) {return student.idClass === deletedClass.idClass})
+    return delStudents.concat(del)
+  },[])
+  deletedStudents.forEach(function(deletedStudent){
+    students.splice(students.indexOf(deletedStudent),1)
+  })
+  return students
+}
+
 // Handle event close modal
 function closeModal() {
   btnsCloseModal.forEach(function (closeBtn) {
@@ -312,16 +341,17 @@ function closeModal() {
   });
 }
 
-function redirect(idClass) {
-  const row = document.querySelector(`tr[class-id="${idClass}"]`);
-
-  // if (!row.matches('input[type = "checkbox"]') && !row.matches(".edit-btn")) {
-
-  window.location.href = `./student.html?class=${idClass}`;
-
-  // }
+function redirect(e,idClass) {
+  // const row = document.querySelector(`tr[class-id="${idClass}"]`);
+  e = e || window.event;
+  // const idClass = row.getAttribute("class-id");
+  if (!e.target.matches('input[type = "checkbox"]') && !e.target.matches(".edit-btn")) {
+    resetCheckboxs()
+    window.location.href = `./student.html?class=${idClass}`;
+  }
 }
 
 showData(classroomsDataLocalStorage);
+checkChecked()
 addData();
 closeModal();
