@@ -7,6 +7,7 @@ const btnClose = document.querySelector("#btn-close-add");
 const btnCloseEdit = document.querySelector("#btn-close-edit");
 const btnCancelEdit = document.querySelector("#btn-cancel-edit");
 const btnSubmitEdit = document.querySelector("#btn-submit-edit");
+const modalDel = document.querySelector("#delete-modal");
 const inputTextNameStudent = document.querySelector("#name-student-add-modal");
 const inputTextAgeStudent = document.querySelector("#age-student-add-modal");
 const inputTextAddressStudent = document.querySelector(
@@ -65,6 +66,7 @@ function handleShowCheckbox(newRow) {
   cellCheckbox.setAttribute("scope", "col");
   const checkbox = document.createElement("INPUT");
   checkbox.setAttribute("type", "checkbox");
+  checkbox.setAttribute("onclick", "checkChecked()");
   checkbox.classList.add("form-check-input");
 
   cellCheckbox.appendChild(checkbox);
@@ -85,17 +87,27 @@ function handleShowBtnEdit(newRow, idClass) {
   newRow.appendChild(cellBtnEdit);
 }
 
-//handle select all
-btnSelectAll.addEventListener("click", selectAll);
+function checkChecked(){
+  const checkBoxs = document.querySelectorAll(".form-check-input");
+  let check = true
+  for (let i = 0; i < checkBoxs.length; i++){
+    if (checkBoxs[i].checked == false) {
+      check = false;
+      break;
+    }
+  }
+  check ? btnSelectAll.textContent = "Cancel All" : btnSelectAll.textContent = "Select All"
+}
+
+//Handle select all 
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-
-  this.textContent === "Select All"
-    ? (this.textContent = "Cancel All")
-    : (this.textContent = "Select All");
+  btnSelectAll.textContent.trim() === "Select All"
+    ? (btnSelectAll.textContent = "Cancel All")
+    : (btnSelectAll.textContent = "Select All");
 
   checkBoxs.forEach((checkbox) => {
-    if (this.textContent === "Cancel All") checkbox.checked = true;
+    if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
     else checkbox.checked = false;
   });
 }
@@ -207,7 +219,70 @@ function updateData(id) {
     }
   };
 }
+// Delete data
+function checkDataDelete(listObject) {
+  let checkBoxs = document.querySelectorAll("input[type = checkbox]");
+  if (checkBoxs) {
+    let delData = [];
+    checkBoxs.forEach(function (checkbox) {
+      if (checkbox.checked == true) {
+        let delRow = checkbox.closest("tr");
+        let rowID = delRow.getAttribute("student-id");
+        let delStudent = listObject.find(function (object) {
+          return object.id == rowID;
+        });
+        delData.push(delStudent);
+      }
+    });
+    return delData;
+  }
+}
+function handleDeleteData() {
+  const delMessage = modalDel.querySelector(".modal-body-message");
+  const delTable = modalDel.querySelector("tbody");
+  const submitBtn = modalDel.querySelector(".btn--submit-modal");
+  let delData = checkDataDelete(JSON.parse(localStorage.getItem("students")));
 
+  modalDel.style.display = "block";
+  delTable.innerHTML = "";
+  if (!delData.length) {
+    delMessage.textContent = "Nothing to delete !!!!";
+  } else {
+    const keyObject = Object.keys(delData[0]);
+    delMessage.innerText = "Do you sure to delete";
+    delData.forEach(function (object) {
+      const newRow = document.createElement("tr");
+      handleShowData(object, keyObject, newRow);
+      delTable.appendChild(newRow);
+    });
+  }
+
+  submitBtn.onclick = function () {
+    let newStudents = deleteData(
+      JSON.parse(localStorage.getItem("students"))
+    );
+    localStorage.setItem("students", JSON.stringify(newStudents));
+    modalDel.style.display = "none";
+  };
+}
+
+function deleteData(listObject) {
+  let checkBoxs = document.querySelectorAll("input[type = checkbox]");
+  if (checkBoxs) {
+    checkBoxs.forEach(function (checkbox) {
+      if (checkbox.checked == true) {
+        let delRow = checkbox.closest("tr");
+        let rowID = delRow.getAttribute("student-id");
+        let delClass = listObject.find(function (object) {
+          return object.id == rowID;
+        });
+        listObject.splice(listObject.indexOf(delClass), 1);
+        delRow.remove();
+      }
+    });
+    return listObject;
+  }
+}
 // Handle event close modal
 function closeModal() {
   btnsCloseModal.forEach(function (closeBtn) {
@@ -229,3 +304,5 @@ closeModal();
 showData(studentData);
 
 addData();
+
+checkChecked()
