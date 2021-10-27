@@ -83,24 +83,28 @@
       <div class="modal-content container d">
         <div class="modal-header">
           <div class="modal-title"><b>Edit Confirmation</b></div>
-          <div class="btn--close-modal">&times;</div>
+          <div class="btn--close-modal" id="btn-close-edit">&times;</div>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label>Name Class</label>
-            <input
-              type="name"
-              class="form-control"
-              id="class-name"
-              key="nameClass"
-            />
+            <label>Name Student</label>
+            <input type="name" class="form-control" id="name-student" />
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" class="form-control" id="age-student" />
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input type="name" class="form-control" id="address-student" />
           </div>
         </div>
-
-        <div class="modal-body">You sure to delete</div>
+        <div>
+          <p id="text-warning-update"></p>
+        </div>
         <div class="modal-action">
           <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
-          <div class="btn--cancel-modal">Cancel</div>
+          <div class="btn--cancel-modal" id="btn-cancel-edit">Cancel</div>
         </div>
       </div>
     </div>
@@ -141,7 +145,7 @@
             />
           </div>
           <div>
-            <p id="text-warning"></p>
+            <p id="text-warning-add"></p>
           </div>
         </div>
         <div class="modal-action">
@@ -184,7 +188,7 @@
     </script>
 
     <footer>
-      <script src="../app_student.js" type="module"></script>
+      <script src="../app_student.js"></script>
     </footer>
   </body>
 </html>
