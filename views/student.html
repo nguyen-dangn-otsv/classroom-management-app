@@ -18,7 +18,11 @@
   </head>
   <body>
     <!-- header -->
-    <header class="header-section"></header>
+    <header class="header-section">
+      <div class ="input-group">
+        <input type="text" class="form-control" placeholder="Enter class ID" id = "search-input" oninput = "searchData(event)">
+      </div>
+    </header>
     <div class="container">
       <!-- table -->
       <div class="table-container">
@@ -29,7 +33,7 @@
               <th scope="col"><b>Name</b></th>
               <th scope="col"><b>Age</b></th>
               <th scope="col"><b>Address</b></th>
-              <th class="action-container " scope="col">
+              <th class="action-container" scope="col">
                 <div class="delete-btn" onclick="handleDeleteData()">
                   Delete
                   <i class="fas fa-plus"></i>

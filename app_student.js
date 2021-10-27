@@ -7,6 +7,7 @@ const btnClose = document.querySelector("#btn-close-add");
 const btnCloseEdit = document.querySelector("#btn-close-edit");
 const btnCancelEdit = document.querySelector("#btn-cancel-edit");
 const btnSubmitEdit = document.querySelector("#btn-submit-edit");
+const tableBody = document.querySelector("tbody");
 const modalDel = document.querySelector("#delete-modal");
 const inputTextNameStudent = document.querySelector("#name-student-add-modal");
 const inputTextAgeStudent = document.querySelector("#age-student-add-modal");
@@ -20,8 +21,6 @@ const inputTextAddressStudentEditModal =
 
 const modalEdit = document.querySelector("#edit-modal");
 const modal = document.querySelector("#add-modal");
-
-const tableBody = document.querySelector("tbody");
 const textWarningUpdate = document.querySelector("#text-warning-update");
 const textWarningAdd = document.querySelector("#text-warning-add");
 const queryString = window.location.search;
@@ -87,24 +86,45 @@ function handleShowBtnEdit(newRow, idClass) {
   newRow.appendChild(cellBtnEdit);
 }
 
-function checkChecked(){
+function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  let check = true
-  for (let i = 0; i < checkBoxs.length; i++){
+  let isChecked = true;
+
+  for (let i = 0; i < checkBoxs.length; i++) {
     if (checkBoxs[i].checked == false) {
-      check = false;
+      isChecked = false;
       break;
     }
   }
-  check ? btnSelectAll.textContent = "Cancel All" : btnSelectAll.textContent = "Select All"
+  btnSelectAll.textContent = isChecked ? "Cancel All": "Select All" ;
+}
+function showDetail(id) {
+  const nameStudent = document.querySelector(".modal-title > p");
+  const idStudent = document.querySelector("#id-student-detail-modal");
+  const name = document.querySelector("#name-student-detail-modal");
+  const age = document.querySelector("#age-student-detail-modal");
+  const address = document.querySelector("#address-student-detail-modal");
+  const nameClass = document.querySelector("#name-class-detail-modal");
+
+  const students = JSON.parse(localStorage.getItem("students"));
+  const classrooms = JSON.parse(localStorage.getItem("classrooms"));
+  const student = students.find((student) => student.id == id);
+
+  nameStudent.innerHTML = student.nameStudent;
+  idStudent.value = student.id;
+  name.value = student.nameStudent;
+  age.value = student.age;
+  address.value = student.address;
+  nameClass.value = classrooms.find(
+    (classroom) => (classroom.idClass = student.idClass)
+  ).nameClass;
+  modalShowDetail.style.display = "block";
 }
 
-//Handle select all 
+//Handle select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  btnSelectAll.textContent.trim() === "Select All"
-    ? (btnSelectAll.textContent = "Cancel All")
-    : (btnSelectAll.textContent = "Select All");
+  btnSelectAll.textContent = btnSelectAll.textContent.trim() === "Select All" ? "Cancel All": "Select All"
 
   checkBoxs.forEach((checkbox) => {
     if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
@@ -258,9 +278,7 @@ function handleDeleteData() {
   }
 
   submitBtn.onclick = function () {
-    let newStudents = deleteData(
-      JSON.parse(localStorage.getItem("students"))
-    );
+    let newStudents = deleteData(JSON.parse(localStorage.getItem("students")));
     localStorage.setItem("students", JSON.stringify(newStudents));
     modalDel.style.display = "none";
   };
@@ -281,6 +299,22 @@ function deleteData(listObject) {
       }
     });
     return listObject;
+  }
+}
+
+function searchData(e){
+  const studentData = JSON.parse(localStorage.getItem("students")).filter(
+    (student) => student.idClass == idClass
+  );
+  if (e.target.value.trim().length){
+    console.log(e.target.value.trim.length)
+    const searchStudents = studentData.filter((student) => student.id.toString().includes(e.target.value.trim()))
+    tableBody.innerHTML = ""
+    showData(searchStudents)
+  }
+  else{
+    tableBody.innerHTML = ""
+    showData(studentData)
   }
 }
 // Handle event close modal
@@ -305,4 +339,4 @@ showData(studentData);
 
 addData();
 
-checkChecked()
+checkChecked();
