@@ -220,20 +220,23 @@ function resetForm() {
 function resetCheckboxs() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   checkBoxs.forEach((checkBox) => {
-    if (checkBox.checked){checkBox.checked = false}
-  })
+    if (checkBox.checked) {
+      checkBox.checked = false;
+    }
+  });
 }
-function checkChecked(){
+function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  let check = true
-  for (let i = 0; i < checkBoxs.length; i++){
+  let isChecked = true;
+  for (let i = 0; i < checkBoxs.length; i++) {
     if (checkBoxs[i].checked == false) {
-      check = false;
+      idChecked = false;
       break;
     }
   }
-  console.log(check)
-  check ? btnSelectAll.textContent = "Cancel All" : btnSelectAll.textContent = "Select All"
+  isChecked
+    ? (btnSelectAll.textContent = "Cancel All")
+    : (btnSelectAll.textContent = "Select All");
 }
 
 //Select all
@@ -290,7 +293,7 @@ function handleDeleteData() {
       JSON.parse(localStorage.getItem("classrooms"))
     );
     localStorage.setItem("classrooms", JSON.stringify(newClassroom));
-    const newStudents = deleteAllStudents(delData)
+    const newStudents = deleteAllStudents(delData);
     localStorage.setItem("students", JSON.stringify(newStudents));
     modalDel.style.display = "none";
   };
@@ -315,15 +318,21 @@ function deleteData(listObject) {
 }
 
 function deleteAllStudents(listDeletedClasses) {
-  const students = JSON.parse(localStorage.getItem('students'))
-  const deletedStudents = listDeletedClasses.reduce(function(delStudents,deletedClass) {
-    const del = students.filter(function(student) {return student.idClass === deletedClass.idClass})
-    return delStudents.concat(del)
-  },[])
-  deletedStudents.forEach(function(deletedStudent){
-    students.splice(students.indexOf(deletedStudent),1)
-  })
-  return students
+  const students = JSON.parse(localStorage.getItem("students"));
+  const deletedStudents = listDeletedClasses.reduce(function (
+    delStudents,
+    deletedClass
+  ) {
+    const del = students.filter(function (student) {
+      return student.idClass === deletedClass.idClass;
+    });
+    return delStudents.concat(del);
+  },
+  []);
+  deletedStudents.forEach(function (deletedStudent) {
+    students.splice(students.indexOf(deletedStudent), 1);
+  });
+  return students;
 }
 
 // Handle event close modal
@@ -341,17 +350,20 @@ function closeModal() {
   });
 }
 
-function redirect(e,idClass) {
+function redirect(e, idClass) {
   // const row = document.querySelector(`tr[class-id="${idClass}"]`);
   e = e || window.event;
   // const idClass = row.getAttribute("class-id");
-  if (!e.target.matches('input[type = "checkbox"]') && !e.target.matches(".edit-btn")) {
-    resetCheckboxs()
+  if (
+    !e.target.matches('input[type = "checkbox"]') &&
+    !e.target.matches(".edit-btn")
+  ) {
+    resetCheckboxs();
     window.location.href = `./student.html?class=${idClass}`;
   }
 }
 
 showData(classroomsDataLocalStorage);
-checkChecked()
+checkChecked();
 addData();
 closeModal();
