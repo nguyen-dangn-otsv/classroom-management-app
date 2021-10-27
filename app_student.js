@@ -65,6 +65,7 @@ function handleShowCheckbox(newRow) {
   cellCheckbox.setAttribute("scope", "col");
   const checkbox = document.createElement("INPUT");
   checkbox.setAttribute("type", "checkbox");
+  checkbox.setAttribute("onclick", "checkChecked()");
   checkbox.classList.add("form-check-input");
 
   cellCheckbox.appendChild(checkbox);
@@ -85,17 +86,27 @@ function handleShowBtnEdit(newRow, idClass) {
   newRow.appendChild(cellBtnEdit);
 }
 
-//handle select all
-btnSelectAll.addEventListener("click", selectAll);
+function checkChecked(){
+  const checkBoxs = document.querySelectorAll(".form-check-input");
+  let check = true
+  for (let i = 0; i < checkBoxs.length; i++){
+    if (checkBoxs[i].checked == false) {
+      check = false;
+      break;
+    }
+  }
+  check ? btnSelectAll.textContent = "Cancel All" : btnSelectAll.textContent = "Select All"
+}
+
+//Handle select all 
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-
-  this.textContent === "Select All"
-    ? (this.textContent = "Cancel All")
-    : (this.textContent = "Select All");
+  btnSelectAll.textContent.trim() === "Select All"
+    ? (btnSelectAll.textContent = "Cancel All")
+    : (btnSelectAll.textContent = "Select All");
 
   checkBoxs.forEach((checkbox) => {
-    if (this.textContent === "Cancel All") checkbox.checked = true;
+    if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
     else checkbox.checked = false;
   });
 }
@@ -229,3 +240,5 @@ closeModal();
 showData(studentData);
 
 addData();
+
+checkChecked()
