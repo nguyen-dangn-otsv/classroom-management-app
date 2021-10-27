@@ -1,6 +1,7 @@
 const inputTextIdClass = document.querySelector("#id-add");
 const inputTextNameClass = document.querySelector("#class-name-add");
-const textWarning = document.querySelector("#text-warning");
+const textWarningAdd = document.querySelector("#text-warning-add");
+const textWarningUpdate = document.querySelector("#text-warning-update");
 const btnCancel = document.querySelector("#btn-cancel-add");
 const btnClose = document.querySelector("#btn-close-add");
 const btnDel = document.querySelector(".delete-btn");
@@ -88,19 +89,30 @@ function showData(listObjects) {
 }
 
 function handleShowData(object, keyObject, newRow) {
-  keyObject.forEach(function (key) {
+  const size = ["15%", "45%"];
+  // keyObject.forEach(function (key) {
+  //   const newCell = document.createElement("th");
+  //   newCell.setAttribute("scope", "col");
+  //   const value = document.createTextNode(object[key]);
+  //   newCell.appendChild(value);
+
+  //   newRow.appendChild(newCell);
+  // });
+  for (let i = 0; i < keyObject.length; i++) {
     const newCell = document.createElement("th");
     newCell.setAttribute("scope", "col");
-    const value = document.createTextNode(object[key]);
+    newCell.style.width = size[i];
+    const value = document.createTextNode(object[keyObject[i]]);
     newCell.appendChild(value);
 
     newRow.appendChild(newCell);
-  });
+  }
 }
 
 function handleShowCheckbox(newRow) {
   const cellCheckbox = document.createElement("th");
   cellCheckbox.setAttribute("scope", "col");
+  cellCheckbox.style.width = "20%";
   const checkbox = document.createElement("INPUT");
   checkbox.setAttribute("type", "checkbox");
   checkbox.setAttribute("onclick", "checkChecked()");
@@ -114,10 +126,10 @@ function handleShowCheckbox(newRow) {
 function handleShowBtnEdit(newRow, idClass) {
   const cellBtnEdit = document.createElement("th");
   cellBtnEdit.setAttribute("scope", "col");
+  cellBtnEdit.style.width = "20%";
   const btnEdit = document.createElement("button");
-  const newBtnText = document.createTextNode("Edit");
-  btnEdit.appendChild(newBtnText);
-  btnEdit.classList.add("edit-btn");
+  btnEdit.classList.add("btn");
+  btnEdit.innerHTML = '<i class="fas fa-edit">';
   btnEdit.setAttribute("onclick", `updateData(${idClass})`);
   cellBtnEdit.appendChild(btnEdit);
 
@@ -149,12 +161,17 @@ function updateData(idClass) {
   modalEdit.style.display = "block";
 
   btnSubmitEdit.onclick = function () {
-    classrooms[idxClassroom].nameClass = inputTextNameClassModal.value;
-    cellNameClass.innerText = inputTextNameClassModal.value;
+    if (inputTextNameClassModal.value.trim() !== "") {
+      classrooms[idxClassroom].nameClass = inputTextNameClassModal.value;
+      cellNameClass.innerText = inputTextNameClassModal.value;
 
-    modalEdit.style.display = "none";
+      modalEdit.style.display = "none";
 
-    localStorage.setItem("classrooms", JSON.stringify(classrooms));
+      localStorage.setItem("classrooms", JSON.stringify(classrooms));
+      textWarningUpdate.innerHTML = "";
+    } else {
+      textWarningUpdate.innerHTML = " * * * Please type full information";
+    }
   };
 }
 
@@ -162,8 +179,9 @@ function updateData(idClass) {
 
 function addData() {
   btnSubmit.addEventListener("click", () => {
-    const idClass = +inputTextIdClass.value;
-    const nameClass = inputTextNameClass.value;
+    const idClass = +inputTextIdClass.value.trim();
+    const nameClass = inputTextNameClass.value.trim();
+
     let listNewObjects = [];
     let classrooms = JSON.parse(localStorage.getItem("classrooms"));
     if (idClass !== 0 && nameClass !== "") {
@@ -173,7 +191,7 @@ function addData() {
 
       if (isMatch) {
         if (localStorage.getItem("checkAddDuplicateData") == "false") {
-          textWarning.innerHTML = " * * * Please type another ID";
+          textWarningAdd.innerHTML = "    Please type another ID !!!!!!";
 
           localStorage.setItem("checkAddDuplicateData", "true");
         }
@@ -188,11 +206,13 @@ function addData() {
 
         modal.style.display = "none";
         localStorage.setItem("classrooms", JSON.stringify(classrooms));
+
         resetForm();
         showData(listNewObjects);
+        checkChecked();
       }
     } else {
-      textWarning.innerHTML = " * * * Please type full information";
+      textWarningAdd.innerHTML = " * * * Please type full information";
     }
   });
 
@@ -209,13 +229,14 @@ function addData() {
   });
 
   inputTextIdClass.addEventListener("input", () => {
-    textWarning.innerHTML = "";
+    textWarningAdd.innerHTML = "";
     localStorage.setItem("checkAddDuplicateData", "false");
   });
 }
 
 function resetForm() {
-  textWarning.innerHTML = "";
+  textWarningAdd.innerHTML = "";
+  textWarningUpdate.innerHTML = "";
   inputTextIdClass.value = "";
   inputTextNameClass.value = "";
 }
@@ -229,22 +250,23 @@ function resetCheckboxs() {
 }
 function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  let isChecked = true
-  for (let i = 0; i < checkBoxs.length; i++){
+  let isChecked = true;
+  for (let i = 0; i < checkBoxs.length; i++) {
     if (checkBoxs[i].checked == false) {
       isChecked = false;
       break;
     }
   }
-  btnSelectAll.textContent = isChecked ? "Cancel All": "Select All" ;
+  btnSelectAll.textContent = isChecked ? "Cancel" : "Select";
 }
 
 //Select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  btnSelectAll.textContent = btnSelectAll.textContent.trim() === "Select All" ? "Cancel All": "Select All"
+  btnSelectAll.textContent =
+    btnSelectAll.textContent.trim() === "Select" ? "Cancel" : "Select";
   checkBoxs.forEach((checkbox) => {
-    if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
+    if (btnSelectAll.textContent === "Cancel") checkbox.checked = true;
     else checkbox.checked = false;
   });
 }
@@ -348,27 +370,26 @@ function closeModal() {
   });
 }
 
-function searchData(e){
-  // console.log(e.target.value)
-  const classList = JSON.parse(localStorage.getItem("classrooms"))
-  if (e.target.value.trim().length){
-    const searchClasses = classList.filter((Class) => Class.idClass.toString().includes(e.target.value.trim()))
-    tableBody.innerHTML = ""
-    showData(searchClasses)
-  }
-  else{
-    tableBody.innerHTML = ""
-    showData(classList)
+function searchData(e) {
+  const classList = JSON.parse(localStorage.getItem("classrooms"));
+  if (e.target.value.trim().length) {
+    const searchClasses = classList.filter((Class) =>
+      Class.idClass.toString().includes(e.target.value.trim())
+    );
+    tableBody.innerHTML = "";
+    showData(searchClasses);
+  } else {
+    tableBody.innerHTML = "";
+    showData(classList);
   }
 }
 
-function redirect(e,idClass) {
-  // const row = document.querySelector(`tr[class-id="${idClass}"]`);
+function redirect(e, idClass) {
   e = e || window.event;
-  // const idClass = row.getAttribute("class-id");
   if (
     !e.target.matches('input[type = "checkbox"]') &&
-    !e.target.matches(".edit-btn")
+    !e.target.matches(".edit-btn") &&
+    !e.target.matches(".fas.fa-edit")
   ) {
     resetCheckboxs();
     window.location.href = `./student.html?class=${idClass}`;
