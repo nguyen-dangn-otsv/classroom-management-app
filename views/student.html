@@ -64,9 +64,11 @@
           <div class="modal-title"><b>Delete Confirmation</b></div>
           <div class="btn--close-modal">&times;</div>
         </div>
-        <div class="modal-body ">
-          <div class = "modal-body-message">Do you sure to delete</div>
-          <table class="table table-striped table-hover"><tbody></tbody></table> 
+        <div class="modal-body">
+          <div class="modal-body-message">Do you sure to delete</div>
+          <table class="table table-striped table-hover">
+            <tbody></tbody>
+          </table>
         </div>
         <div class="modal-action">
           <div class="btn--submit-modal">OK</div>
@@ -95,9 +97,7 @@
           </div>
         </div>
 
-        <div class="modal-body">
-          You sure to delete 
-        </div>
+        <div class="modal-body">You sure to delete</div>
         <div class="modal-action">
           <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
           <div class="btn--cancel-modal">Cancel</div>
@@ -111,14 +111,42 @@
       <div class="modal-content container d">
         <div class="modal-header">
           <div class="modal-title"><b>Add</b></div>
-          <div class="btn--close-modal">&times;</div>
+          <div class="btn--close-modal" id="btn-close-add">&times;</div>
         </div>
         <div class="modal-body">
           <!-- body content modal -->
+
+          <div class="form-group">
+            <label>Name Student</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name-student-add-modal"
+            />
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <input
+              type="number"
+              class="form-control"
+              id="age-student-add-modal"
+            />
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="address-student-add-modal"
+            />
+          </div>
+          <div>
+            <p id="text-warning"></p>
+          </div>
         </div>
         <div class="modal-action">
-          <div class="btn--submit-modal">OK</div>
-          <div class="btn--cancel-modal">Cancel</div>
+          <div class="btn--submit-modal" id="btn-submit-add">OK</div>
+          <div class="btn--cancel-modal" id="btn-cancel-add">Cancel</div>
         </div>
       </div>
     </div>
@@ -141,7 +169,7 @@
         modalAdd.style.display = "block";
       };
 
-            // Select All handle
+      // Select All handle
       // var btnAll = document.querySelector(".select-all-btn");
       // var checkboxs = document.querySelectorAll(".form-check-input");
       // btnAll.onclick = function () {
