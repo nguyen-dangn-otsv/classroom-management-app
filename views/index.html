@@ -93,7 +93,9 @@
         <div class="modal-content container delete-modal">
           <div class="modal-header">
             <div class="modal-title"><b>Delete Confirmation</b></div>
-            <div class="btn--close-modal">&times;</div>
+            <div class="btn--close-modal" onclick="closeDeleteModal()">
+              &times;
+            </div>
           </div>
           <div class="modal-body">
             <div class="modal-body-message">Do you sure to delete</div>
@@ -103,7 +105,6 @@
           </div>
           <div class="modal-action">
             <div class="btn--submit-modal">OK</div>
-            <div class="btn--cancel-modal">Cancel</div>
           </div>
         </div>
       </div>
@@ -114,7 +115,9 @@
         <div class="modal-content container d">
           <div class="modal-header">
             <div class="modal-title"><b>Edit Confirmation</b></div>
-            <div class="btn--close-modal">&times;</div>
+            <div class="btn--close-modal" onclick="closeEditModal()">
+              &times;
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -127,13 +130,12 @@
               />
             </div>
             <div class="form-group">
-              <p id="text-warning-update" class="text-warning"></p>
+              <p id="text-warning-edit" class="text-warning"></p>
             </div>
           </div>
 
           <div class="modal-action">
             <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
-            <div class="btn--cancel-modal">Cancel</div>
           </div>
         </div>
       </div>
@@ -143,8 +145,10 @@
         <!-- Modal content -->
         <div class="modal-content container d">
           <div class="modal-header">
-            <div class="modal-title"><b>Add</b></div>
-            <div class="btn--close-modal" id="btn-close-add">&times;</div>
+            <div class="modal-title"><b>Add New Classroom</b></div>
+            <div class="btn--close-modal" onclick="closeAddModal()">
+              &times;
+            </div>
           </div>
           <div class="modal-body" id="body-add-modal">
             <!-- body content modal -->
@@ -173,32 +177,10 @@
           </div>
           <div class="modal-action">
             <div class="btn--submit-modal" id="btn-submit-add">OK</div>
-            <div class="btn--cancel-modal" id="btn-cancel-add">Cancel</div>
           </div>
         </div>
       </div>
     </div>
-    <script type="text/javascript">
-      // var modalAdd = document.querySelector("#add-modal");
-      // var btnAdd = document.querySelector(".add-btn");
-      // btnAdd.onclick = function () {
-      //   modalAdd.style.display = "block";
-      // };
-
-      // Select All handle
-      // var btnAll = document.querySelector(".select-all-btn");
-      // var checkboxs = document.querySelectorAll(".form-check-input");
-      // btnAll.onclick = function () {
-      //   btnAll.textContent == "Select All"
-      //     ? (btnAll.textContent = "Cancel All")
-      //     : (btnAll.textContent = "Select All");
-      //   checkboxs.forEach(function (checkbox) {
-      //     if (btnAll.textContent == "Cancel All") checkbox.checked = true;
-      //     else checkbox.checked = false;
-      //   });
-      // };
-    </script>
-
     <footer>
       <script src="../app.js"></script>
     </footer>

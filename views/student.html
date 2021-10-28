@@ -80,7 +80,7 @@
           <!-- Add btn -->
         </div>
         <div class="action-container">
-          <div class="add-btn">
+          <div class="add-btn" onclick="showAddModal()">
             <i class="fas fa-plus-circle"></i> Add New Student
           </div>
         </div>
@@ -93,7 +93,7 @@
         <div class="modal-content container delete-modal">
           <div class="modal-header">
             <div class="modal-title"><b>Delete Confirmation</b></div>
-            <div class="btn--close-modal">&times;</div>
+            <div class="btn--close-modal" onclick="closeDeleteModal()">&times;</div>
           </div>
           <div class="modal-body">
             <div class="modal-body-message">Do you sure to delete</div>
@@ -103,7 +103,6 @@
           </div>
           <div class="modal-action">
             <div class="btn--submit-modal">OK</div>
-            <div class="btn--cancel-modal">Cancel</div>
           </div>
         </div>
       </div>
@@ -114,7 +113,9 @@
         <div class="modal-content container d">
           <div class="modal-header">
             <div class="modal-title"><b>Edit Confirmation</b></div>
-            <div class="btn--close-modal" id="btn-close-edit">&times;</div>
+            <div class="btn--close-modal" onclick="closeEditModal()">
+              &times;
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -130,12 +131,13 @@
               <input type="name" class="form-control" id="address-student" />
             </div>
           </div>
-          <div>
+          <div class="form-group">
             <p id="text-warning-update" class="text-warning"></p>
           </div>
           <div class="modal-action">
             <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
-            <div class="btn--cancel-modal" id="btn-cancel-edit">Cancel</div>
+            
+            </div>
           </div>
         </div>
       </div>
@@ -145,8 +147,14 @@
         <!-- Modal content -->
         <div class="modal-content container d">
           <div class="modal-header">
-            <div class="modal-title"><b>Add</b></div>
-            <div class="btn--close-modal" id="btn-close-add">&times;</div>
+            <div class="modal-title"><b>Add New Student</b></div>
+            <div
+              class="btn--close-modal"
+              id="btn-close-add"
+              onclick="closeAddModal()"
+            >
+              &times;
+            </div>
           </div>
           <div class="modal-body">
             <!-- body content modal -->
@@ -157,6 +165,7 @@
                 type="text"
                 class="form-control"
                 id="name-student-add-modal"
+                placeholder="Your name student..."
               />
             </div>
             <div class="form-group">
@@ -165,6 +174,7 @@
                 type="number"
                 class="form-control"
                 id="age-student-add-modal"
+                placeholder="Your age student..."
               />
             </div>
             <div class="form-group">
@@ -173,15 +183,16 @@
                 type="text"
                 class="form-control"
                 id="address-student-add-modal"
+                placeholder="Your address student..."
               />
             </div>
-            <div>
+            <div class="form-group">
               <p id="text-warning-add" class="text-warning"></p>
             </div>
           </div>
           <div class="modal-action">
             <div class="btn--submit-modal" id="btn-submit-add">OK</div>
-            <div class="btn--cancel-modal" id="btn-cancel-add">Cancel</div>
+            
           </div>
         </div>
       </div>
@@ -191,7 +202,13 @@
         <div class="modal-content container d">
           <div class="modal-header">
             <div class="modal-title"><p></p></div>
-            <div class="btn--close-modal" id="btn-close-add">&times;</div>
+            <div
+              class="btn--close-modal"
+              id="btn-close-add"
+              onclick="closeDetailModal()"
+            >
+              &times;
+            </div>
           </div>
           <div class="modal-body">
             <!-- body content modal -->
@@ -242,44 +259,9 @@
               />
             </div>
           </div>
-          <div class="modal-action">
-            <div class="btn--submit-modal" id="btn-submit-add">OK</div>
-            <div class="btn--cancel-modal" id="btn-cancel-add">Cancel</div>
-          </div>
         </div>
       </div>
     </div>
-    <script type="text/javascript">
-      // Delete-modal handle
-      // var modalDel = document.querySelector("#delete-modal");
-      // var btnDel = document.querySelector(".delete-btn");
-
-      // btnDel.onclick = function () {
-      //   modalDel.style.display = "block";
-      // };
-
-      // Edit-modal handle
-
-      // Add-modal handler
-      var modalAdd = document.querySelector("#add-modal");
-      var btnAdd = document.querySelector(".add-btn");
-      btnAdd.onclick = function () {
-        modalAdd.style.display = "block";
-      };
-
-      // Select All handle
-      // var btnAll = document.querySelector(".select-all-btn");
-      // var checkboxs = document.querySelectorAll(".form-check-input");
-      // btnAll.onclick = function () {
-      //   btnAll.textContent == "Select All"
-      //     ? (btnAll.textContent = "Cancel All")
-      //     : (btnAll.textContent = "Select All");
-      //   checkboxs.forEach(function (checkbox) {
-      //     if (btnAll.textContent == "Cancel All") checkbox.checked = true;
-      //     else checkbox.checked = false;
-      //   });
-      // };
-    </script>
 
     <footer>
       <script src="../app_student.js"></script>
