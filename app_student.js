@@ -52,9 +52,11 @@ function showData(listObjects) {
 }
 
 function handleShowData(object, keyObject, newRow) {
+  const size = ["5%", "30%", "10%", "10%"];
   for (let i = 0; i < keyObject.length - 1; i++) {
     const newCell = document.createElement("th");
     newCell.setAttribute("scope", "col");
+    newCell.style.width = size[i];
     const value = document.createTextNode(object[keyObject[i]]);
     newCell.appendChild(value);
 
@@ -79,9 +81,8 @@ function handleShowBtnEdit(newRow, idClass) {
   const cellBtnEdit = document.createElement("th");
   cellBtnEdit.setAttribute("scope", "col");
   const btnEdit = document.createElement("button");
-  const newBtnText = document.createTextNode("Edit");
-  btnEdit.appendChild(newBtnText);
-  btnEdit.classList.add("edit-btn");
+  btnEdit.innerHTML = '<i class="fas fa-edit">';
+  btnEdit.classList.add("btn");
   btnEdit.setAttribute("onclick", `updateData(${idClass})`);
   cellBtnEdit.appendChild(btnEdit);
 
@@ -93,21 +94,34 @@ function handleShowBtnDetail(newRow, id) {
   const btnDetail = document.createElement("button");
   btnDetail.innerHTML = `<i class="fa fa-eye"></i>`;
   btnDetail.setAttribute("onclick", `showDetail(${id})`);
+  btnDetail.classList.add("btn");
   cellBtnDetail.setAttribute("scope", "col");
   cellBtnDetail.appendChild(btnDetail);
   newRow.appendChild(cellBtnDetail);
 }
+function iconChecked(){
+  const iconChecked = document.createElement("i")
+  iconChecked.setAttribute("class","fas fa-check")
+  iconChecked.setAttribute("aria-hidden","true")
+  return iconChecked;
+}
+function iconUnchecked(){
+  const iconUnchecked = document.createElement("i")
+  iconUnchecked.setAttribute("class","fas fa-times")
+  iconUnchecked.setAttribute("aria-hidden","true")
+  return iconUnchecked;
+}
 function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   let isChecked = true;
-
   for (let i = 0; i < checkBoxs.length; i++) {
     if (checkBoxs[i].checked == false) {
       isChecked = false;
       break;
     }
   }
-  btnSelectAll.textContent = isChecked ? "Cancel All": "Select All" ;
+  const iconCheck = isChecked ? iconUnchecked() : iconChecked();
+  btnSelectAll.firstElementChild.replaceWith(iconCheck)
 }
 const modalShowDetail = document.querySelector("#detail-modal");
 
@@ -135,12 +149,13 @@ function showDetail(id) {
 }
 
 //Handle select all
+//Select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  btnSelectAll.textContent = btnSelectAll.textContent.trim() === "Select All" ? "Cancel All": "Select All"
-
+  const iconCheck = btnSelectAll.firstElementChild.className === "fas fa-check" ? iconUnchecked() : iconChecked(); 
+  btnSelectAll.firstElementChild.replaceWith(iconCheck)
   checkBoxs.forEach((checkbox) => {
-    if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
+    if (btnSelectAll.firstElementChild.className === "fas fa-times") checkbox.checked = true;
     else checkbox.checked = false;
   });
 }
@@ -179,6 +194,7 @@ function addData() {
         localStorage.setItem("students", JSON.stringify(students));
 
         showData(listNewStudent);
+        checkChecked()
         resetForm();
       } else {
         textWarningAdd.innerHTML = " * * * Please type full information";
@@ -314,19 +330,19 @@ function deleteData(listObject) {
   }
 }
 
-function searchData(e){
+function searchData(e) {
   const studentData = JSON.parse(localStorage.getItem("students")).filter(
     (student) => student.idClass == idClass
   );
-  if (e.target.value.trim().length){
-    console.log(e.target.value.trim.length)
-    const searchStudents = studentData.filter((student) => student.id.toString().includes(e.target.value.trim()))
-    tableBody.innerHTML = ""
-    showData(searchStudents)
-  }
-  else{
-    tableBody.innerHTML = ""
-    showData(studentData)
+  if (e.target.value.trim().length) {
+    const searchStudents = studentData.filter((student) =>
+      student.id.toString().includes(e.target.value.trim())
+    );
+    tableBody.innerHTML = "";
+    showData(searchStudents);
+  } else {
+    tableBody.innerHTML = "";
+    showData(studentData);
   }
 }
 // Handle event close modal

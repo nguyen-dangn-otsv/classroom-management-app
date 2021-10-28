@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClassRoom</title>
-
+    <!-- Reset CSS -->
+    <link rel="stylesheet" href="../assets/css/reset.css" />
+    <!-- Style CSS -->
     <link rel="stylesheet" href="../assets/css/style.css" />
-
+    <script
+      src="https://kit.fontawesome.com/9353184649.js"
+      crossorigin="anonymous"
+    ></script>
     <!-- bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -23,122 +28,156 @@
   <body>
     <!-- header -->
     <header class="header-section">
-      <div class ="input-group">
-        <input type="text" class="form-control" placeholder="Enter class ID" id = "search-input" oninput = "searchData(event)">
+      <div class="container">
+        <div class="header-container">
+          <a href="./index.html">
+            <i class="fas fa-home"></i>
+          </a>
+          <div class="header-center">
+            <h1>Classroom Management</h1>
+          </div>
+        </div>
       </div>
     </header>
-    <div class="container">
-      <!-- table -->
-      <div class="table-container">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th scope="col"><b>Index</b></th>
-              <th scope="col"><b>Name</b></th>
-              <th class="action-container input-group" scope="col">
-                <div class="delete-btn" onclick="handleDeleteData()">
-                  Delete
-                  <i class="fas fa-plus"></i>
-                </div>
-                <div class="select-all-btn" onclick="selectAll()">
-                  Select All
-                  <i class="fas fa-plus"></i>
-                </div>
-              </th>
-              <th scope="col"><b>Edit</b></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <!-- Add btn -->
-      </div>
-      <div class="action-container">
-        <div class="add-btn" onclick="showAddModal()">
-          Add
-          <i class="fas fa-plus"></i>
+    <!-- main -->
+    <div id="main">
+      <div class="container">
+        <!-- Search -->
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="&#xF002; Search"
+            style="font-family: FontAwesome"
+            id="search-input"
+            oninput="searchData(event)"
+            class="form-control"
+          />
         </div>
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <!-- Delete modal -->
-    <div id="delete-modal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content container delete-modal">
-        <div class="modal-header">
-          <div class="modal-title"><b>Delete Confirmation</b></div>
-          <div class="btn--close-modal">&times;</div>
-        </div>
-        <div class="modal-body">
-          <div class="modal-body-message">Do you sure to delete</div>
+        <!-- table -->
+        <div class="table-container">
           <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 15%"><b>Index</b></th>
+                <th scope="col" style="width: 45%"><b>Name</b></th>
+                <th scope="col" style="width: 20%">
+                  <div class="d-flex">
+                    <div class="delete-btn" onclick="handleDeleteData()">
+                      <i class="fas fa-trash"></i>
+                    </div>
+
+                    <div class="select-all-btn" onclick="selectAll()">
+                      <i class="fas fa-check"></i>
+                    </div>
+                  </div>
+                </th>
+                <th scope="col" style="width: 20%"><b>Edit</b></th>
+              </tr>
+            </thead>
             <tbody></tbody>
           </table>
+
+          <!-- Add btn -->
         </div>
-        <div class="modal-action">
-          <div class="btn--submit-modal">OK</div>
-          <div class="btn--cancel-modal">Cancel</div>
+        <div class="action-container">
+          <div class="add-btn" onclick="showAddModal()">
+            <i class="fas fa-plus-circle"></i> Add New Classroom
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <!-- Delete modal -->
+      <div id="delete-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content container delete-modal">
+          <div class="modal-header">
+            <div class="modal-title"><b>Delete Confirmation</b></div>
+            <div class="btn--close-modal">&times;</div>
+          </div>
+          <div class="modal-body">
+            <div class="modal-body-message">Do you sure to delete</div>
+            <table class="table table-striped table-hover">
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="modal-action">
+            <div class="btn--submit-modal">OK</div>
+            <div class="btn--cancel-modal">Cancel</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit modal -->
+      <div id="edit-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content container d">
+          <div class="modal-header">
+            <div class="modal-title"><b>Edit Confirmation</b></div>
+            <div class="btn--close-modal">&times;</div>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Name Class</label>
+              <input
+                type="name"
+                class="form-control"
+                id="class-name"
+                key="nameClass"
+              />
+            </div>
+            <div class="form-group">
+              <p id="text-warning-update" class="text-warning"></p>
+            </div>
+          </div>
+
+          <div class="modal-action">
+            <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
+            <div class="btn--cancel-modal">Cancel</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add modal -->
+      <div id="add-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content container d">
+          <div class="modal-header">
+            <div class="modal-title"><b>Add</b></div>
+            <div class="btn--close-modal" id="btn-close-add">&times;</div>
+          </div>
+          <div class="modal-body" id="body-add-modal">
+            <!-- body content modal -->
+            <div class="form-group">
+              <label>ID</label>
+              <input
+                type="number"
+                class="form-control"
+                id="id-add"
+                placeholder="Your class id ..."
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Name Class</label>
+              <input
+                type="text"
+                class="form-control"
+                id="class-name-add"
+                placeholder="Your class name ..."
+              />
+            </div>
+            <div class="form-group">
+              <p id="text-warning-add" class="text-warning"></p>
+            </div>
+          </div>
+          <div class="modal-action">
+            <div class="btn--submit-modal" id="btn-submit-add">OK</div>
+            <div class="btn--cancel-modal" id="btn-cancel-add">Cancel</div>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Edit modal -->
-    <div id="edit-modal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content container d">
-        <div class="modal-header">
-          <div class="modal-title"><b>Edit Confirmation</b></div>
-          <div class="btn--close-modal">&times;</div>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label>Name Class</label>
-            <input
-              type="name"
-              class="form-control"
-              id="class-name"
-              key="nameClass"
-            />
-          </div>
-        </div>
-
-        <div class="modal-action">
-          <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
-          <div class="btn--cancel-modal">Cancel</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Add modal -->
-    <div id="add-modal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content container d">
-        <div class="modal-header">
-          <div class="modal-title"><b>Add</b></div>
-          <div class="btn--close-modal" id="btn-close-add">&times;</div>
-        </div>
-        <div class="modal-body" id="body-add-modal">
-          <!-- body content modal -->
-          <div class="form-group">
-            <label>ID</label>
-            <input type="number" class="form-control" id="id-add" />
-          </div>
-          <div class="form-group">
-            <label>Name Class</label>
-            <input type="text" class="form-control" id="class-name-add" />
-          </div>
-          <div>
-            <p id="text-warning"></p>
-          </div>
-        </div>
-        <div class="modal-action">
-          <div class="btn--submit-modal" id="btn-submit-add">OK</div>
-          <div class="btn--cancel-modal" id="btn-cancel-add">Cancel</div>
-        </div>
-      </div>
-    </div>
-
     <script type="text/javascript">
       // var modalAdd = document.querySelector("#add-modal");
       // var btnAdd = document.querySelector(".add-btn");
