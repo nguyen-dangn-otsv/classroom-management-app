@@ -11,6 +11,8 @@ const btnsCloseModal = document.querySelectorAll(".btn--close-modal");
 const modalDel = document.querySelector("#delete-modal");
 const modalAdd = document.querySelector("#add-modal");
 const modal = document.querySelector("#add-modal");
+const searchInput = document.querySelector("#search-input");
+const tableBody = document.querySelector("tbody");
 
 localStorage.setItem("checkAddDuplicateData", "false");
 
@@ -227,24 +229,20 @@ function resetCheckboxs() {
 }
 function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  let isChecked = true;
-  for (let i = 0; i < checkBoxs.length; i++) {
+  let isChecked = true
+  for (let i = 0; i < checkBoxs.length; i++){
     if (checkBoxs[i].checked == false) {
-      idChecked = false;
+      isChecked = false;
       break;
     }
   }
-  isChecked
-    ? (btnSelectAll.textContent = "Cancel All")
-    : (btnSelectAll.textContent = "Select All");
+  btnSelectAll.textContent = isChecked ? "Cancel All": "Select All" ;
 }
 
 //Select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  btnSelectAll.textContent.trim() === "Select All"
-    ? (btnSelectAll.textContent = "Cancel All")
-    : (btnSelectAll.textContent = "Select All");
+  btnSelectAll.textContent = btnSelectAll.textContent.trim() === "Select All" ? "Cancel All": "Select All"
   checkBoxs.forEach((checkbox) => {
     if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
     else checkbox.checked = false;
@@ -350,7 +348,21 @@ function closeModal() {
   });
 }
 
-function redirect(e, idClass) {
+function searchData(e){
+  // console.log(e.target.value)
+  const classList = JSON.parse(localStorage.getItem("classrooms"))
+  if (e.target.value.trim().length){
+    const searchClasses = classList.filter((Class) => Class.idClass.toString().includes(e.target.value.trim()))
+    tableBody.innerHTML = ""
+    showData(searchClasses)
+  }
+  else{
+    tableBody.innerHTML = ""
+    showData(classList)
+  }
+}
+
+function redirect(e,idClass) {
   // const row = document.querySelector(`tr[class-id="${idClass}"]`);
   e = e || window.event;
   // const idClass = row.getAttribute("class-id");
