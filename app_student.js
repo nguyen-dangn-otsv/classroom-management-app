@@ -7,6 +7,7 @@ const btnClose = document.querySelector("#btn-close-add");
 const btnCloseEdit = document.querySelector("#btn-close-edit");
 const btnCancelEdit = document.querySelector("#btn-cancel-edit");
 const btnSubmitEdit = document.querySelector("#btn-submit-edit");
+const tableBody = document.querySelector("tbody");
 const modalDel = document.querySelector("#delete-modal");
 const inputTextNameStudent = document.querySelector("#name-student-add-modal");
 const inputTextAgeStudent = document.querySelector("#age-student-add-modal");
@@ -20,8 +21,6 @@ const inputTextAddressStudentEditModal =
 
 const modalEdit = document.querySelector("#edit-modal");
 const modal = document.querySelector("#add-modal");
-
-const tableBody = document.querySelector("tbody");
 const textWarningUpdate = document.querySelector("#text-warning-update");
 const textWarningAdd = document.querySelector("#text-warning-add");
 const queryString = window.location.search;
@@ -108,7 +107,7 @@ function checkChecked() {
       break;
     }
   }
-  btnSelectAll.textContent = isChecked ? "Cancel All" : "Select All";
+  btnSelectAll.textContent = isChecked ? "Cancel All": "Select All" ;
 }
 const modalShowDetail = document.querySelector("#detail-modal");
 
@@ -138,9 +137,7 @@ function showDetail(id) {
 //Handle select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  btnSelectAll.textContent.trim() === "Select All"
-    ? (btnSelectAll.textContent = "Cancel All")
-    : (btnSelectAll.textContent = "Select All");
+  btnSelectAll.textContent = btnSelectAll.textContent.trim() === "Select All" ? "Cancel All": "Select All"
 
   checkBoxs.forEach((checkbox) => {
     if (btnSelectAll.textContent === "Cancel All") checkbox.checked = true;
@@ -314,6 +311,22 @@ function deleteData(listObject) {
       }
     });
     return listObject;
+  }
+}
+
+function searchData(e){
+  const studentData = JSON.parse(localStorage.getItem("students")).filter(
+    (student) => student.idClass == idClass
+  );
+  if (e.target.value.trim().length){
+    console.log(e.target.value.trim.length)
+    const searchStudents = studentData.filter((student) => student.id.toString().includes(e.target.value.trim()))
+    tableBody.innerHTML = ""
+    showData(searchStudents)
+  }
+  else{
+    tableBody.innerHTML = ""
+    showData(studentData)
   }
 }
 // Handle event close modal
