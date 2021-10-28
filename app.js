@@ -248,6 +248,18 @@ function resetCheckboxs() {
     }
   });
 }
+function iconChecked(){
+  const iconChecked = document.createElement("i")
+  iconChecked.setAttribute("class","fas fa-check")
+  iconChecked.setAttribute("aria-hidden","true")
+  return iconChecked;
+}
+function iconUnchecked(){
+  const iconUnchecked = document.createElement("i")
+  iconUnchecked.setAttribute("class","fas fa-times")
+  iconUnchecked.setAttribute("aria-hidden","true")
+  return iconUnchecked;
+}
 function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   let isChecked = true;
@@ -257,17 +269,23 @@ function checkChecked() {
       break;
     }
   }
-  btnSelectAll.textContent = isChecked ? "Cancel" : "Select";
+  const iconCheck = isChecked ? iconUnchecked() : iconChecked();
+  btnSelectAll.firstElementChild.replaceWith(iconCheck)
 }
 
 //Select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  btnSelectAll.textContent =
-    btnSelectAll.textContent.trim() === "Select" ? "Cancel" : "Select";
+  const iconCheck = btnSelectAll.firstElementChild.className === "fas fa-check" ? iconUnchecked() : iconChecked(); 
+  btnSelectAll.firstElementChild.replaceWith(iconCheck)
   checkBoxs.forEach((checkbox) => {
-    if (btnSelectAll.textContent === "Cancel") checkbox.checked = true;
-    else checkbox.checked = false;
+    if (btnSelectAll.firstElementChild.className === "fas fa-times"){ 
+      checkbox.checked = true;
+    }
+    else {
+      checkbox.checked = false;
+    }
+
   });
 }
 // Delete data

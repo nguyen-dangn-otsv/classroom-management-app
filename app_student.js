@@ -99,17 +99,29 @@ function handleShowBtnDetail(newRow, id) {
   cellBtnDetail.appendChild(btnDetail);
   newRow.appendChild(cellBtnDetail);
 }
+function iconChecked(){
+  const iconChecked = document.createElement("i")
+  iconChecked.setAttribute("class","fas fa-check")
+  iconChecked.setAttribute("aria-hidden","true")
+  return iconChecked;
+}
+function iconUnchecked(){
+  const iconUnchecked = document.createElement("i")
+  iconUnchecked.setAttribute("class","fas fa-times")
+  iconUnchecked.setAttribute("aria-hidden","true")
+  return iconUnchecked;
+}
 function checkChecked() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   let isChecked = true;
-
   for (let i = 0; i < checkBoxs.length; i++) {
     if (checkBoxs[i].checked == false) {
       isChecked = false;
       break;
     }
   }
-  btnSelectAll.textContent = isChecked ? "Cancel" : "Select";
+  const iconCheck = isChecked ? iconUnchecked() : iconChecked();
+  btnSelectAll.firstElementChild.replaceWith(iconCheck)
 }
 const modalShowDetail = document.querySelector("#detail-modal");
 
@@ -137,13 +149,13 @@ function showDetail(id) {
 }
 
 //Handle select all
+//Select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  btnSelectAll.textContent =
-    btnSelectAll.textContent.trim() === "Select" ? "Cancel" : "Select";
-
+  const iconCheck = btnSelectAll.firstElementChild.className === "fas fa-check" ? iconUnchecked() : iconChecked(); 
+  btnSelectAll.firstElementChild.replaceWith(iconCheck)
   checkBoxs.forEach((checkbox) => {
-    if (btnSelectAll.textContent === "Cancel") checkbox.checked = true;
+    if (btnSelectAll.firstElementChild.className === "fas fa-times") checkbox.checked = true;
     else checkbox.checked = false;
   });
 }
@@ -182,6 +194,7 @@ function addData() {
         localStorage.setItem("students", JSON.stringify(students));
 
         showData(listNewStudent);
+        checkChecked()
         resetForm();
       } else {
         textWarningAdd.innerHTML = " * * * Please type full information";

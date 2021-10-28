@@ -86,6 +86,10 @@ table tbody tr th {
 .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0px 5px 0px 0px #dbd8d8;
+  background-color:#888
+}
+.btn:hover .fas.fa-edit,.btn:hover .fa.fa-eye{
+  color: white
 }
 .delete-btn {
   flex: 1;
@@ -233,4 +237,9 @@ p.text-warning {
   width: 100%;
   text-align: center;
   padding-top: 10px;
+}
+input[type=checkbox]:checked{
+  font: #fff;
+  background-color: #212529;
+  border-color: #212529;
 }
