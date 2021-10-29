@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ClassRoom</title>
-    <!-- Reset CSS -->
+    <title>Student</title>
     <link rel="stylesheet" href="../assets/css/reset.css" />
-    <!-- Style CSS -->
     <link rel="stylesheet" href="../assets/css/style.css" />
     <script
       src="https://kit.fontawesome.com/9353184649.js"
@@ -39,10 +37,8 @@
         </div>
       </div>
     </header>
-    <!-- main -->
     <div id="main">
       <div class="container">
-        <!-- Search -->
         <div class="input-group">
           <input
             type="text"
@@ -54,13 +50,16 @@
           />
         </div>
         <!-- table -->
+
         <div class="table-container">
           <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th scope="col" style="width: 15%"><b>Index</b></th>
-                <th scope="col" style="width: 45%"><b>Name</b></th>
-                <th scope="col" style="width: 20%">
+                <th scope="col" style="width: 5%"><b>ID</b></th>
+                <th scope="col" style="width: 30%"><b>Name</b></th>
+                <th scope="col" style="width: 10%"><b>Age</b></th>
+                <th scope="col" style="width: 10%"><b>Address</b></th>
+                <th scope="col">
                   <div class="d-flex">
                     <div class="delete-btn" onclick="handleDeleteData()">
                       <i class="fas fa-trash"></i>
@@ -71,7 +70,8 @@
                     </div>
                   </div>
                 </th>
-                <th scope="col" style="width: 20%"><b>Edit</b></th>
+                <th scope="col"><b>Edit</b></th>
+                <th scope="col"><b>Detail</b></th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -81,7 +81,7 @@
         </div>
         <div class="action-container">
           <div class="add-btn" onclick="showAddModal()">
-            <i class="fas fa-plus-circle"></i> Add New Classroom
+            <i class="fas fa-plus-circle"></i> Add New Student
           </div>
         </div>
       </div>
@@ -93,9 +93,7 @@
         <div class="modal-content container delete-modal">
           <div class="modal-header">
             <div class="modal-title"><b>Delete Confirmation</b></div>
-            <div class="btn--close-modal" onclick="closeDeleteModal()">
-              &times;
-            </div>
+            <div class="btn--close-modal" onclick="closeDeleteModal()">&times;</div>
           </div>
           <div class="modal-body">
             <div class="modal-body-message">Do you sure to delete</div>
@@ -121,21 +119,25 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label>Name Class</label>
-              <input
-                type="name"
-                class="form-control"
-                id="class-name"
-                key="nameClass"
-              />
+              <label>Name Student</label>
+              <input type="name" class="form-control" id="name-student" />
             </div>
             <div class="form-group">
-              <p id="text-warning-edit" class="text-warning"></p>
+              <label>Age</label>
+              <input type="number" class="form-control" id="age-student" />
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="name" class="form-control" id="address-student" />
             </div>
           </div>
-
+          <div class="form-group">
+            <p id="text-warning-update" class="text-warning"></p>
+          </div>
           <div class="modal-action">
             <div class="btn--submit-modal" id="btn-submit-edit">OK</div>
+            
+            </div>
           </div>
         </div>
       </div>
@@ -145,30 +147,43 @@
         <!-- Modal content -->
         <div class="modal-content container d">
           <div class="modal-header">
-            <div class="modal-title"><b>Add New Classroom</b></div>
-            <div class="btn--close-modal" onclick="closeAddModal()">
+            <div class="modal-title"><b>Add New Student</b></div>
+            <div
+              class="btn--close-modal"
+              id="btn-close-add"
+              onclick="closeAddModal()"
+            >
               &times;
             </div>
           </div>
-          <div class="modal-body" id="body-add-modal">
+          <div class="modal-body">
             <!-- body content modal -->
-            <div class="form-group">
-              <label>ID</label>
-              <input
-                type="number"
-                class="form-control"
-                id="id-add"
-                placeholder="Your class id ..."
-              />
-            </div>
 
             <div class="form-group">
-              <label>Name Class</label>
+              <label>Name Student</label>
               <input
                 type="text"
                 class="form-control"
-                id="class-name-add"
-                placeholder="Your class name ..."
+                id="name-student-add-modal"
+                placeholder="Your name student..."
+              />
+            </div>
+            <div class="form-group">
+              <label>Age</label>
+              <input
+                type="number"
+                class="form-control"
+                id="age-student-add-modal"
+                placeholder="Your age student..."
+              />
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address-student-add-modal"
+                placeholder="Your address student..."
               />
             </div>
             <div class="form-group">
@@ -177,12 +192,79 @@
           </div>
           <div class="modal-action">
             <div class="btn--submit-modal" id="btn-submit-add">OK</div>
+            
+          </div>
+        </div>
+      </div>
+      <!-- Show Detail -->
+      <div id="detail-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content container d">
+          <div class="modal-header">
+            <div class="modal-title"><p></p></div>
+            <div
+              class="btn--close-modal"
+              id="btn-close-add"
+              onclick="closeDetailModal()"
+            >
+              &times;
+            </div>
+          </div>
+          <div class="modal-body">
+            <!-- body content modal -->
+            <div class="form-group">
+              <label>ID</label>
+              <input
+                type="number"
+                class="form-control"
+                id="id-student-detail-modal"
+                disabled
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Name Student</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name-student-detail-modal"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label>Age</label>
+              <input
+                type="number"
+                class="form-control"
+                id="age-student-detail-modal"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address-student-detail-modal"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label>Name Class</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name-class-detail-modal"
+                disabled
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
+
     <footer>
-      <script src="../app.js"></script>
+      <script src="../app_student.js"></script>
     </footer>
   </body>
 </html>
