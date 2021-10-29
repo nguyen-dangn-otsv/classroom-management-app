@@ -32,6 +32,14 @@ const studentData = JSON.parse(localStorage.getItem("students")).filter(
   (student) => student.idClass == idClass
 );
 
+function loadHeader() {
+  const header = document.querySelector(".header-center > h1");
+  const nameClass = JSON.parse(localStorage.getItem("classrooms")).find(
+    (Class) => Class.idClass == idClass
+  ).nameClass;
+  header.innerText = "Students Of Class " + nameClass;
+}
+loadHeader();
 // Show list student
 
 function showData(listStudents) {
