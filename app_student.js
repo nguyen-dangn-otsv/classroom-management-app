@@ -252,7 +252,8 @@ function updateData(id) {
       !Number.isNaN(age) &&
       Number.isInteger(age) &&
       inputTextNameStudentEditModal.value.trim() !== "" &&
-      inputTextAddressStudentEditModal.value.trim() !== ""
+      inputTextAddressStudentEditModal.value.trim() !== "" &&
+      inputTextAgeStudentEditModal.value.trim() !== ""
     ) {
       studentsLocalStorage[idxStudentLocalStorage].nameStudent =
         inputTextNameStudentEditModal.value;
