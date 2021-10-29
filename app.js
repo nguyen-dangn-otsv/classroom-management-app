@@ -396,9 +396,37 @@ function searchData(e) {
     );
     tableBody.innerHTML = "";
     showData(searchClasses);
+    checkChecked()
   } else {
     tableBody.innerHTML = "";
     showData(classList);
+    checkChecked()
+  }
+}
+function searchDataByName(e){
+  const messageRow = document.createElement('tr')
+  const messageH3 = document.createElement("h3")
+  messageH3.style.color = "red"
+  const message = document.createTextNode("There is no data to show")
+  messageH3.appendChild(message)
+  messageRow.appendChild(messageH3)
+  const classList = JSON.parse(localStorage.getItem("classrooms"))
+  if(e.target.value.trim().length) {
+    const searchClasses = classList.filter((Class) =>
+      Class.nameClass.toString().toLowerCase().includes(e.target.value.trim().toLowerCase())
+    );
+    if (searchClasses.length){ 
+      tableBody.innerHTML = "";
+      showData(searchClasses);
+      checkChecked()
+    } else{
+      tableBody.innerHTML = "";
+      tableBody.appendChild(messageRow)
+    }
+  } else{
+    tableBody.innerHTML = "";
+    showData(classList);
+    checkChecked()
   }
 }
 
