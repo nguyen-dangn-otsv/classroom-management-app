@@ -1,21 +1,19 @@
-const inputTextIdClass = document.querySelector("#id-add");
-const inputTextNameClass = document.querySelector("#class-name-add");
 const textWarningAdd = document.querySelector("#text-warning-add");
-const textWarningUpdate = document.querySelector("#text-warning-update");
+const textWarningEdit = document.querySelector("#text-warning-edit");
 const btnCancel = document.querySelector("#btn-cancel-add");
 const btnClose = document.querySelector("#btn-close-add");
 const btnDel = document.querySelector(".delete-btn");
 const btnSelectAll = document.querySelector(".select-all-btn");
-const btnSubmit = document.querySelector("#btn-submit-add");
-const btnsCancelModal = document.querySelectorAll(".btn--cancel-modal");
-const btnsCloseModal = document.querySelectorAll(".btn--close-modal");
+const btnSubmitAdd = document.querySelector("#btn-submit-add");
+const btnSubmitEdit = document.querySelector("#btn-submit-edit");
 const modalDel = document.querySelector("#delete-modal");
 const modalAdd = document.querySelector("#add-modal");
+const modalEdit = document.querySelector("#edit-modal");
 const modal = document.querySelector("#add-modal");
 const searchInput = document.querySelector("#search-input");
 const tableBody = document.querySelector("tbody");
-
-localStorage.setItem("checkAddDuplicateData", "false");
+const inputTextIdClass = document.querySelector("#id-add");
+const inputTextNameClass = document.querySelector("#class-name-add");
 
 let classrooms = [
   {
@@ -55,54 +53,49 @@ let students = [
     idClass: 2,
   },
 ];
+
+// Save data to localstorage
 let classroomsDataLocalStorage = saveData(classrooms, "classrooms");
 let studentDataLocalStorage = saveData(students, "students");
-function saveData(listObject, keyName) {
+function saveData(listClassroom, key) {
   let classroomsData;
-  if (localStorage.getItem(keyName) == null) {
-    localStorage.setItem(keyName, JSON.stringify(listObject));
-    classroomsData = listObject;
+  if (localStorage.getItem(key) == null) {
+    localStorage.setItem(key, JSON.stringify(listClassroom));
+    classroomsData = listClassroom;
   } else {
-    classroomsData = JSON.parse(localStorage.getItem(keyName));
+    classroomsData = JSON.parse(localStorage.getItem(key));
   }
   return classroomsData;
 }
 
-// Show data
-
-function showData(listObjects) {
-  if (!listObjects.length) return;
-  const keyObject = Object.keys(listObjects[0]);
+// Show list classrooms
+function showData(listClassroom) {
+  if (!listClassroom.length) return;
+  const key = Object.keys(listClassroom[0]);
   const table = document.querySelector("tbody");
-  listObjects.forEach(function (object) {
+  listClassroom.forEach(function (classroom) {
     const newRow = document.createElement("tr");
-    newRow.setAttribute("class-id", object[keyObject[0]]);
+    newRow.setAttribute("class-id", classroom[key[0]]);
+    newRow.setAttribute("onclick", `redirect(event, ${classroom[key[0]]})`);
 
-    handleShowData(object, keyObject, newRow);
+    handleShowData(classroom, key, newRow);
 
     handleShowCheckbox(newRow);
 
-    handleShowBtnEdit(newRow, object[keyObject[0]]);
-    newRow.setAttribute("onclick", `redirect(event,${object[keyObject[0]]})`);
+    handleShowBtnEdit(newRow, classroom[key[0]]);
+
     table.appendChild(newRow);
   });
 }
 
-function handleShowData(object, keyObject, newRow) {
+function handleShowData(classroom, key, newRow) {
   const size = ["15%", "45%"];
-  // keyObject.forEach(function (key) {
-  //   const newCell = document.createElement("th");
-  //   newCell.setAttribute("scope", "col");
-  //   const value = document.createTextNode(object[key]);
-  //   newCell.appendChild(value);
-
-  //   newRow.appendChild(newCell);
-  // });
-  for (let i = 0; i < keyObject.length; i++) {
+  for (let i = 0; i < key.length; i++) {
     const newCell = document.createElement("th");
+    const value = document.createTextNode(classroom[key[i]]);
+
     newCell.setAttribute("scope", "col");
     newCell.style.width = size[i];
-    const value = document.createTextNode(object[keyObject[i]]);
     newCell.appendChild(value);
 
     newRow.appendChild(newCell);
@@ -111,13 +104,14 @@ function handleShowData(object, keyObject, newRow) {
 
 function handleShowCheckbox(newRow) {
   const cellCheckbox = document.createElement("th");
-  cellCheckbox.setAttribute("scope", "col");
-  cellCheckbox.style.width = "20%";
   const checkbox = document.createElement("INPUT");
+
   checkbox.setAttribute("type", "checkbox");
   checkbox.setAttribute("onclick", "checkChecked()");
   checkbox.classList.add("form-check-input");
 
+  cellCheckbox.setAttribute("scope", "col");
+  cellCheckbox.style.width = "20%";
   cellCheckbox.appendChild(checkbox);
 
   newRow.appendChild(cellCheckbox);
@@ -125,12 +119,14 @@ function handleShowCheckbox(newRow) {
 
 function handleShowBtnEdit(newRow, idClass) {
   const cellBtnEdit = document.createElement("th");
-  cellBtnEdit.setAttribute("scope", "col");
-  cellBtnEdit.style.width = "20%";
   const btnEdit = document.createElement("button");
+
   btnEdit.classList.add("btn");
   btnEdit.innerHTML = '<i class="fas fa-edit">';
   btnEdit.setAttribute("onclick", `updateData(${idClass})`);
+
+  cellBtnEdit.setAttribute("scope", "col");
+  cellBtnEdit.style.width = "20%";
   cellBtnEdit.appendChild(btnEdit);
 
   newRow.appendChild(cellBtnEdit);
@@ -139,12 +135,10 @@ function handleShowBtnEdit(newRow, idClass) {
 function showAddModal() {
   modalAdd.style.display = "block";
 }
-// Update data
+
+// Update classroom
 
 function updateData(idClass) {
-  const modalEdit = document.querySelector("#edit-modal");
-
-  const btnSubmitEdit = document.querySelector("#btn-submit-edit");
   const inputTextNameClassModal = document.querySelector("#class-name");
   const tableBody = document.querySelector("tbody");
 
@@ -168,78 +162,69 @@ function updateData(idClass) {
       modalEdit.style.display = "none";
 
       localStorage.setItem("classrooms", JSON.stringify(classrooms));
-      textWarningUpdate.innerHTML = "";
+      textWarningEdit.innerHTML = "";
     } else {
-      textWarningUpdate.innerHTML = " * * * Please type full information";
+      textWarningEdit.innerHTML = "Please type full information !!!!!!";
     }
   };
 }
+function closeEditModal() {
+  textWarningEdit.innerHTML = "";
+  modalEdit.style.display = "none";
+}
 
-// Add data
+// Add classroom
 
 function addData() {
-  btnSubmit.addEventListener("click", () => {
-    const idClass = +inputTextIdClass.value.trim();
+  btnSubmitAdd.addEventListener("click", () => {
+    const idClass = +inputTextIdClass.value;
     const nameClass = inputTextNameClass.value.trim();
 
-    let listNewObjects = [];
+    let newClassrooms = [];
     let classrooms = JSON.parse(localStorage.getItem("classrooms"));
+
     if (idClass !== 0 && nameClass !== "") {
-      const isMatch = classrooms.find(
+      const isMatched = classrooms.find(
         (classroom) => classroom.idClass == idClass
       );
 
-      if (isMatch) {
-        if (localStorage.getItem("checkAddDuplicateData") == "false") {
-          textWarningAdd.innerHTML = "    Please type another ID !!!!!!";
-
-          localStorage.setItem("checkAddDuplicateData", "true");
-        }
+      if (isMatched) {
+        textWarningAdd.innerHTML = "Duplicated ID !!!!!!";
       } else {
         const newClass = {
           idClass,
           nameClass,
         };
 
-        listNewObjects.push(newClass);
+        newClassrooms.push(newClass);
         classrooms.push(newClass);
 
         modal.style.display = "none";
         localStorage.setItem("classrooms", JSON.stringify(classrooms));
 
         resetForm();
-        showData(listNewObjects);
+        showData(newClassrooms);
         checkChecked();
       }
     } else {
-      textWarningAdd.innerHTML = " * * * Please type full information";
+      textWarningAdd.innerHTML = "Please type full information !!!!!!";
     }
   });
-
-  btnCancel.addEventListener("click", () => {
-    localStorage.setItem("checkAddDuplicateData", "false");
-    modal.style.display = "none";
-    resetForm();
-  });
-
-  btnClose.addEventListener("click", () => {
-    localStorage.setItem("checkAddDuplicateData", "false");
-    modal.style.display = "none";
-    resetForm();
-  });
-
   inputTextIdClass.addEventListener("input", () => {
     textWarningAdd.innerHTML = "";
-    localStorage.setItem("checkAddDuplicateData", "false");
   });
 }
-
+function closeAddModal() {
+  resetForm();
+  modal.style.display = "none";
+}
 function resetForm() {
   textWarningAdd.innerHTML = "";
-  textWarningUpdate.innerHTML = "";
   inputTextIdClass.value = "";
   inputTextNameClass.value = "";
 }
+
+// Delete classroom
 function resetCheckboxs() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   checkBoxs.forEach((checkBox) => {
@@ -273,7 +258,6 @@ function checkChecked() {
   btnSelectAll.firstElementChild.replaceWith(iconCheck)
 }
 
-//Select all
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
   const iconCheck = btnSelectAll.firstElementChild.className === "fas fa-check" ? iconUnchecked() : iconChecked(); 
@@ -288,7 +272,7 @@ function selectAll() {
 
   });
 }
-// Delete data
+
 function checkDataDelete(listObject) {
   let checkBoxs = document.querySelectorAll("input[type = checkbox]");
   if (checkBoxs) {
@@ -373,20 +357,10 @@ function deleteAllStudents(listDeletedClasses) {
   return students;
 }
 
-// Handle event close modal
-function closeModal() {
-  btnsCloseModal.forEach(function (closeBtn) {
-    closeBtn.onclick = function () {
-      closeBtn.closest(".modal").style.display = "none";
-    };
-  });
-
-  btnsCancelModal.forEach((btnCancel) => {
-    btnCancel.addEventListener("click", (e) => {
-      btnCancel.closest(".modal").style.display = "none";
-    });
-  });
+function closeDeleteModal() {
+  modalDel.style.display = "none";
 }
+// Search
 
 function searchData(e) {
   const classList = JSON.parse(localStorage.getItem("classrooms"));
@@ -443,6 +417,7 @@ function redirect(e, idClass) {
 }
 
 showData(classroomsDataLocalStorage);
+
 checkChecked();
+
 addData();
-closeModal();
