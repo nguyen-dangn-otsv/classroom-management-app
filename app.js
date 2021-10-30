@@ -28,6 +28,18 @@ let classrooms = [
     idClass: 3,
     nameClass: "18TCLC_DT3",
   },
+  {
+    idClass: 4,
+    nameClass: "18TCLC_DT4",
+  },
+  {
+    idClass: 5,
+    nameClass: "18TCLC_DT5",
+  },
+  {
+    idClass: 6,
+    nameClass: "18TCLC_DT6",
+  },
 ];
 
 let students = [
@@ -233,16 +245,16 @@ function resetCheckboxs() {
     }
   });
 }
-function iconChecked(){
-  const iconChecked = document.createElement("i")
-  iconChecked.setAttribute("class","fas fa-check")
-  iconChecked.setAttribute("aria-hidden","true")
+function iconChecked() {
+  const iconChecked = document.createElement("i");
+  iconChecked.setAttribute("class", "fas fa-check");
+  iconChecked.setAttribute("aria-hidden", "true");
   return iconChecked;
 }
-function iconUnchecked(){
-  const iconUnchecked = document.createElement("i")
-  iconUnchecked.setAttribute("class","fas fa-times")
-  iconUnchecked.setAttribute("aria-hidden","true")
+function iconUnchecked() {
+  const iconUnchecked = document.createElement("i");
+  iconUnchecked.setAttribute("class", "fas fa-times");
+  iconUnchecked.setAttribute("aria-hidden", "true");
   return iconUnchecked;
 }
 function checkChecked() {
@@ -255,21 +267,22 @@ function checkChecked() {
     }
   }
   const iconCheck = isChecked ? iconUnchecked() : iconChecked();
-  btnSelectAll.firstElementChild.replaceWith(iconCheck)
+  btnSelectAll.firstElementChild.replaceWith(iconCheck);
 }
 
 function selectAll() {
   const checkBoxs = document.querySelectorAll(".form-check-input");
-  const iconCheck = btnSelectAll.firstElementChild.className === "fas fa-check" ? iconUnchecked() : iconChecked(); 
-  btnSelectAll.firstElementChild.replaceWith(iconCheck)
+  const iconCheck =
+    btnSelectAll.firstElementChild.className === "fas fa-check"
+      ? iconUnchecked()
+      : iconChecked();
+  btnSelectAll.firstElementChild.replaceWith(iconCheck);
   checkBoxs.forEach((checkbox) => {
-    if (btnSelectAll.firstElementChild.className === "fas fa-times"){ 
+    if (btnSelectAll.firstElementChild.className === "fas fa-times") {
       checkbox.checked = true;
-    }
-    else {
+    } else {
       checkbox.checked = false;
     }
-
   });
 }
 
@@ -370,37 +383,40 @@ function searchData(e) {
     );
     tableBody.innerHTML = "";
     showData(searchClasses);
-    checkChecked()
+    checkChecked();
   } else {
     tableBody.innerHTML = "";
     showData(classList);
-    checkChecked()
+    checkChecked();
   }
 }
-function searchDataByName(e){
-  const messageRow = document.createElement('tr')
-  const messageH3 = document.createElement("h3")
-  messageH3.style.color = "red"
-  const message = document.createTextNode("There is no data to show")
-  messageH3.appendChild(message)
-  messageRow.appendChild(messageH3)
-  const classList = JSON.parse(localStorage.getItem("classrooms"))
-  if(e.target.value.trim().length) {
+function searchDataByName(e) {
+  const messageRow = document.createElement("tr");
+  const messageH3 = document.createElement("h3");
+  messageH3.style.color = "red";
+  const message = document.createTextNode("There is no data to show");
+  messageH3.appendChild(message);
+  messageRow.appendChild(messageH3);
+  const classList = JSON.parse(localStorage.getItem("classrooms"));
+  if (e.target.value.trim().length) {
     const searchClasses = classList.filter((Class) =>
-      Class.nameClass.toString().toLowerCase().includes(e.target.value.trim().toLowerCase())
+      Class.nameClass
+        .toString()
+        .toLowerCase()
+        .includes(e.target.value.trim().toLowerCase())
     );
-    if (searchClasses.length){ 
+    if (searchClasses.length) {
       tableBody.innerHTML = "";
       showData(searchClasses);
-      checkChecked()
-    } else{
+      checkChecked();
+    } else {
       tableBody.innerHTML = "";
-      tableBody.appendChild(messageRow)
+      tableBody.appendChild(messageRow);
     }
-  } else{
+  } else {
     tableBody.innerHTML = "";
     showData(classList);
-    checkChecked()
+    checkChecked();
   }
 }
 

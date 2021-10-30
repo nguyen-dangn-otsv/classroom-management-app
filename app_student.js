@@ -188,34 +188,41 @@ function addData() {
     let id = students.length == 0 ? 0 : students[students.length - 1].id;
     ++id;
     const age = Number(inputTextAgeStudent.value);
-    if (Number.isNaN(age) || !Number.isInteger(age)) {
-      textWarningAdd.innerHTML = "Please fill Age by a number !!!!!!";
-    } else {
-      if (
-        inputTextAgeStudent.value !== "" &&
-        address !== "" &&
-        nameStudent !== ""
-      ) {
-        const newStudent = {
-          id,
-          nameStudent,
-          age,
-          address,
-          idClass,
-        };
-
-        listNewStudent.push(newStudent);
-        students.push(newStudent);
-
-        modal.style.display = "none";
-        localStorage.setItem("students", JSON.stringify(students));
-
-        showData(listNewStudent);
-        checkChecked();
-        resetForm();
+    if (
+      Number(inputTextAgeStudent.value) > 0 &&
+      Number(inputTextAgeStudent.value) < 200
+    ) {
+      if (Number.isNaN(age) || !Number.isInteger(age)) {
+        textWarningAdd.innerHTML = "Please fill Age by a number !!!!!!";
       } else {
-        textWarningAdd.innerHTML = "Please type full information !!!!!!";
+        if (
+          inputTextAgeStudent.value !== "" &&
+          address !== "" &&
+          nameStudent !== ""
+        ) {
+          const newStudent = {
+            id,
+            nameStudent,
+            age,
+            address,
+            idClass,
+          };
+
+          listNewStudent.push(newStudent);
+          students.push(newStudent);
+
+          modal.style.display = "none";
+          localStorage.setItem("students", JSON.stringify(students));
+
+          showData(listNewStudent);
+          checkChecked();
+          resetForm();
+        } else {
+          textWarningAdd.innerHTML = "Please type full information !!!!!!";
+        }
       }
+    } else {
+      textWarningAdd.innerHTML = "Please type correct information !!!!!!";
     }
   });
 }
@@ -259,6 +266,8 @@ function updateData(id) {
     if (
       !Number.isNaN(age) &&
       Number.isInteger(age) &&
+      Number(age) > 0 &&
+      Number(age) < 200 &&
       inputTextNameStudentEditModal.value.trim() !== "" &&
       inputTextAddressStudentEditModal.value.trim() !== "" &&
       inputTextAgeStudentEditModal.value.trim() !== ""
