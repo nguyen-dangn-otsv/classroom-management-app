@@ -11,4 +11,6 @@ Back-end: Javascript.
 
 # Contributing
 
+Everyone
+
 # Installation
